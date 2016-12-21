@@ -1003,7 +1003,7 @@ bool Document::hasMember(const std::string& key) const noexcept
     if (_type == Kind::OBJECT)
     {
         const auto& it = _object.find(key);
-        if (it != _object.end() && it->second->_type != Kind::UNKNOWN)
+        if (it != _object.end())
             return true;
     }
     return false;

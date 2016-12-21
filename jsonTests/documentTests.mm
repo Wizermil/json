@@ -4888,7 +4888,7 @@
     doc.deserialize("{\"key1\":\"tata\",\"key2\":{\"key21\":21,\"key22\":22}}");
     XCTAssertEqual(doc.hasMember("key3"), false);
     doc["key3"].getType();
-    XCTAssertEqual(doc.hasMember("key3"), false);
+    XCTAssertEqual(doc.hasMember("key3"), true);
 
     doc.deserialize("[\"key1\", \"key2\"]");
     XCTAssertEqual(doc.hasMember("key1"), false);
