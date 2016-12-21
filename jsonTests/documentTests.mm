@@ -4872,4 +4872,28 @@
     }
 }
 
+- (void)testObjectHasMember {
+    json::Document doc;
+    doc.deserialize("{\"key1\":\"tata\",\"key2\":true,\"key3\":false,\"key4\":null,\"key5\":1,\"key6\":1.1,\"key7\":[true, false],\"key8\":[\"tata\",\"toto\"],\"key9\":[null,null],\"key10\":[1,-2],\"key11\":[1.2,-3.4]}");
+    XCTAssertEqual(doc.hasMember("key1"), true);
+    XCTAssertEqual(doc.hasMember("key7"), true);
+    XCTAssertEqual(doc["key7"].hasMember("key1"), false);
+    XCTAssertEqual(doc.hasMember("key12"), false);
+
+    doc.deserialize("{\"key1\":\"tata\",\"key2\":{\"key21\":21,\"key22\":22}}");
+    XCTAssertEqual(doc.hasMember("key2"), true);
+    XCTAssertEqual(doc["key2"].hasMember("key21"), true);
+    XCTAssertEqual(doc["key2"].hasMember("key23"), false);
+
+    doc.deserialize("{\"key1\":\"tata\",\"key2\":{\"key21\":21,\"key22\":22}}");
+    XCTAssertEqual(doc.hasMember("key3"), false);
+    doc["key3"].getType();
+    XCTAssertEqual(doc.hasMember("key3"), false);
+
+    doc.deserialize("[\"key1\", \"key2\"]");
+    XCTAssertEqual(doc.hasMember("key1"), false);
+    doc[2].getType();
+    XCTAssertEqual(doc.hasMember("3"), false);
+}
+
 @end

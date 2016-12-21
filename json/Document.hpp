@@ -218,6 +218,7 @@ namespace json
         Array& getArrayFrom(const std::string& key) const;
         Array& getArraySafeFrom(const std::string& key, const Array& def = Array(Kind::ARRAY)) const noexcept;
         bool isNullFrom(const std::string& key) const;
+        bool hasMember(const std::string& key) const noexcept;
 
         Document& operator[](const std::string& key);
 

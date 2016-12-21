@@ -862,7 +862,7 @@ short Document::getShortFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getShort();
         else
@@ -876,7 +876,7 @@ int Document::getIntFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getInt();
         else
@@ -890,7 +890,7 @@ long Document::getLongFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLong();
         else
@@ -904,7 +904,7 @@ float Document::getFloatFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getFloat();
         else
@@ -918,7 +918,7 @@ double Document::getDoubleFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getDouble();
         else
@@ -932,7 +932,7 @@ std::string Document::getStringFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getString();
         else
@@ -946,7 +946,7 @@ bool Document::getBooleanFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getBoolean();
         else
@@ -960,7 +960,7 @@ Object& Document::getObjectFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getObject();
         else
@@ -974,7 +974,7 @@ Array& Document::getArrayFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getArray();
         else
@@ -988,7 +988,7 @@ bool Document::isNullFrom(const std::string& key) const
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->isNull();
         else
@@ -998,11 +998,22 @@ bool Document::isNullFrom(const std::string& key) const
         throw BadValue();
 }
 
+bool Document::hasMember(const std::string& key) const noexcept
+{
+    if (_type == Kind::OBJECT)
+    {
+        const auto& it = _object.find(key);
+        if (it != _object.end() && it->second->_type != Kind::UNKNOWN)
+            return true;
+    }
+    return false;
+}
+
 short Document::getShortSafeFrom(const std::string& key, short def) const noexcept
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getShortSafe(def);
     }
@@ -1013,7 +1024,7 @@ int Document::getIntSafeFrom(const std::string& key, int def) const noexcept
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getIntSafe(def);
     }
@@ -1024,7 +1035,7 @@ long Document::getLongSafeFrom(const std::string& key, long def) const noexcept
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLongSafe(def);
     }
@@ -1035,7 +1046,7 @@ float Document::getFloatSafeFrom(const std::string& key, float def) const noexce
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getFloatSafe(def);
     }
@@ -1046,7 +1057,7 @@ double Document::getDoubleSafeFrom(const std::string& key, double def) const noe
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getDoubleSafe(def);
     }
@@ -1057,7 +1068,7 @@ std::string Document::getStringSafeFrom(const std::string& key, const std::strin
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getStringSafe(def);
     }
@@ -1068,7 +1079,7 @@ bool Document::getBooleanSafeFrom(const std::string& key, bool def) const noexce
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getBooleanSafe(def);
     }
@@ -1079,7 +1090,7 @@ Object& Document::getObjectSafeFrom(const std::string& key, const Object& def) c
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getObjectSafe(def);
     }
@@ -1090,7 +1101,7 @@ Array& Document::getArraySafeFrom(const std::string& key, const Array& def) cons
 {
     if (_type == Kind::OBJECT)
     {
-        auto it = _object.find(key);
+        const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getArraySafe(def);
     }
