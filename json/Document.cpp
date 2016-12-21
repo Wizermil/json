@@ -786,6 +786,18 @@ bool Document::isNullAt(std::size_t index) const
     return ret;
 }
 
+void Document::removeAt(std::size_t index)
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (index >= _array.size())
+            throw std::out_of_range("wrong index");
+        _array.erase(_array.begin() + index);
+    }
+    else
+        throw BadValue();
+}
+
 short Document::getShortSafeAt(std::size_t index, short def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
@@ -1007,6 +1019,20 @@ bool Document::hasMember(const std::string& key) const noexcept
             return true;
     }
     return false;
+}
+
+void Document::removeFrom(const std::string& key)
+{
+    if (_type == Kind::OBJECT)
+    {
+        auto it = _object.find(key);
+        if (it != _object.end())
+            _object.erase(it);
+        else
+            throw std::out_of_range("wrong key");
+    }
+    else
+        throw BadValue();
 }
 
 short Document::getShortSafeFrom(const std::string& key, short def) const noexcept

@@ -4797,7 +4797,29 @@
     json::Document doc;
     doc.deserialize("{\"key1\":\"tata\",\"key2\":true,\"key3\":false,\"key4\":null,\"key5\":1,\"key6\":1.1,\"key7\":[true, false],\"key8\":[\"tata\",\"toto\"],\"key9\":[null,null],\"key10\":[1,-2],\"key11\":[1.2,-3.4]}");
     doc["key1"] = "toto";
+    XCTAssertEqual(doc.hasMember("key1"), true);
     XCTAssertEqual(doc.getStringFrom("key1"), "toto");
+    // Test key not present
+    XCTAssertEqual(doc.hasMember("zogzog"), false);
+    XCTAssertEqual(doc.getStringSafeFrom("zogzog"), "");
+    XCTAssertEqual(doc.getStringSafeFrom("zogzog", "A Value"), "A Value");
+    // Access key not present
+    XCTAssertEqual(doc["zogzog"].getType(), json::Kind::UNKNOWN);
+    XCTAssertEqual(doc.serialize(),
+                   "{\"key9\":[null,null],\"key8\":[\"tata\",\"toto\"],\"key1\":\"toto\",\"key2\":true,\"key6\":1.1,\"key5\":1,\"key3\":false,\"key4\":null,\"key11\":[1.2,-3.4],\"key10\":[1,-2],\"key7\":[true,false]}");
+}
+
+- (void)testRemove {
+    json::Document doc;
+    doc.deserialize("{\"key1\":\"tata\",\"key2\":true,\"key3\":false,\"key4\":null,\"key5\":1,\"key6\":1.1,\"key7\":[true, false],\"key8\":[\"tata\",\"toto\"],\"key9\":[null,null],\"key10\":[1,-2],\"key11\":[1.2,-3.4]}");
+    doc.removeFrom("key3");
+    XCTAssertEqual(doc.serialize(),
+                   "{\"key9\":[null,null],\"key8\":[\"tata\",\"toto\"],\"key6\":1.1,\"key5\":1,\"key4\":null,\"key11\":[1.2,-3.4],\"key10\":[1,-2],\"key2\":true,\"key7\":[true,false],\"key1\":\"tata\"}");
+    doc["key8"].removeAt(1);
+    XCTAssertEqual(doc.serialize(),
+                   "{\"key9\":[null,null],\"key8\":[\"tata\"],\"key6\":1.1,\"key5\":1,\"key4\":null,\"key11\":[1.2,-3.4],\"key10\":[1,-2],\"key2\":true,\"key7\":[true,false],\"key1\":\"tata\"}");
+
+    
 }
 
 - (void)testRange {

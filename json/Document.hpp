@@ -196,6 +196,7 @@ namespace json
         Array& getArrayAt(std::size_t index) const;
         Array& getArraySafeAt(std::size_t index, const Array& def = Array(Kind::ARRAY)) const noexcept;
         bool isNullAt(std::size_t index) const;
+        void removeAt(std::size_t index);
 
         void pushBackArray(const short val) noexcept;
         void pushBackArray(const int val) noexcept;
@@ -230,6 +231,7 @@ namespace json
         Array& getArraySafeFrom(const std::string& key, const Array& def = Array(Kind::ARRAY)) const noexcept;
         bool isNullFrom(const std::string& key) const;
         bool hasMember(const std::string& key) const noexcept;
+        void removeFrom(const std::string& key);
 
         Document& operator[](const std::string& key);
 
