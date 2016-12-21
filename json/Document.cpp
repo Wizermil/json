@@ -1155,6 +1155,241 @@ std::string Document::removeTraillingZero(long double n) const noexcept
     return ret;
 }
 
+void Document::pushBackArray(const short val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const int val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it;
+            for (it = _array.rbegin(); it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const long val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const float val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(static_cast<long double>(val));
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(static_cast<long double>(val));
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const double val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(static_cast<long double>(val));
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(static_cast<long double>(val));
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const char* val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setString(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setString(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const std::string& val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setString(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setString(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const bool val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setBoolean(val);
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setBoolean(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
+void Document::pushBackArray(const std::nullptr_t val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNull();
+                return;
+            }
+        }
+
+        auto newValue = std::make_shared<Document>();
+        newValue->setNull();
+        _array.emplace_back(std::move(newValue));
+    }
+}
+
 Document& Document::operator =(const short val)
 {
     setNumber(val);
@@ -1349,7 +1584,7 @@ std::string Document::serialize() const
         {
             if (itTmp.second->_type == Kind::UNKNOWN)
             {
-                current.unknownTypeCount++;
+                ++current.unknownTypeCount;
             }
         }
     }
@@ -1361,7 +1596,7 @@ std::string Document::serialize() const
         {
             if (itTmp->_type == Kind::UNKNOWN)
             {
-                current.unknownTypeCount++;
+                ++current.unknownTypeCount;
             }
         }
     }

@@ -197,6 +197,17 @@ namespace json
         Array& getArraySafeAt(std::size_t index, const Array& def = Array(Kind::ARRAY)) const noexcept;
         bool isNullAt(std::size_t index) const;
 
+        void pushBackArray(const short val) noexcept;
+        void pushBackArray(const int val) noexcept;
+        void pushBackArray(const long val) noexcept;
+        void pushBackArray(const float val) noexcept;
+        void pushBackArray(const double val) noexcept;
+        void pushBackArray(const char* val) noexcept;
+        void pushBackArray(const std::string& val) noexcept;
+        void pushBackArray(const bool val) noexcept;
+        void pushBackArray(const std::nullptr_t val) noexcept;
+
+
         Document& operator[](std::size_t key);
 
         short getShortFrom(const std::string& key) const;

@@ -4896,4 +4896,105 @@
     XCTAssertEqual(doc.hasMember("3"), false);
 }
 
+- (void)testArrayPushBack {
+    json::Document doc;
+    doc.deserialize("[]");
+
+    short sVal = 1;
+    doc.pushBackArray(sVal);
+    XCTAssertEqual(doc[0].getShort(), 1);
+    int iVal = 2;
+    doc.pushBackArray(iVal);
+    XCTAssertEqual(doc[1].getInt(), 2);
+    long lVal = 3;
+    doc.pushBackArray(lVal);
+    XCTAssertEqual(doc[2].getLong(), 3);
+    float fVal = 4.1f;
+    doc.pushBackArray(fVal);
+    XCTAssertEqualWithAccuracy(doc[3].getFloat(), 4.1f, std::numeric_limits<float>::epsilon());
+    double dVal = 5.1;
+    doc.pushBackArray(dVal);
+    XCTAssertEqualWithAccuracy(doc[4].getDouble(), 5.1, std::numeric_limits<double>::epsilon());
+    const char* ccVal = "const char*";
+    doc.pushBackArray(ccVal);
+    XCTAssertEqual(doc[5].getString(), "const char*");
+    std::string strVal = "string";
+    doc.pushBackArray(strVal);
+    XCTAssertEqual(doc[6].getString(), "string");
+    bool bVal = false;
+    doc.pushBackArray(bVal);
+    XCTAssertEqual(doc[7].getBoolean(), false);
+    std::nullptr_t nVal = nullptr;
+    doc.pushBackArray(nVal);
+    XCTAssertEqual(doc[8].isNull(), true);
+
+
+    doc.deserialize("[]");
+
+    doc[0].getType();
+    doc.pushBackArray(sVal);
+    XCTAssertEqual(doc[0].getShort(), 1);
+    doc[1].getType();
+    doc.pushBackArray(iVal);
+    XCTAssertEqual(doc[1].getInt(), 2);
+    doc[2].getType();
+    doc.pushBackArray(lVal);
+    XCTAssertEqual(doc[2].getLong(), 3);
+    doc[3].getType();
+    doc.pushBackArray(fVal);
+    XCTAssertEqualWithAccuracy(doc[3].getFloat(), 4.1f, std::numeric_limits<float>::epsilon());
+    doc[4].getType();
+    doc.pushBackArray(dVal);
+    XCTAssertEqualWithAccuracy(doc[4].getDouble(), 5.1, std::numeric_limits<double>::epsilon());
+    doc[5].getType();
+    doc.pushBackArray(ccVal);
+    XCTAssertEqual(doc[5].getString(), "const char*");
+    doc[6].getType();
+    doc.pushBackArray(strVal);
+    XCTAssertEqual(doc[6].getString(), "string");
+    doc[7].getType();
+    doc.pushBackArray(bVal);
+    XCTAssertEqual(doc[7].getBoolean(), false);
+    doc[8].getType();
+    doc.pushBackArray(nVal);
+    XCTAssertEqual(doc[8].isNull(), true);
+
+    doc.deserialize("[]");
+
+    doc[0].getType();
+    doc[1].getType();
+    doc[2].getType();
+    doc[3].getType();
+    doc[4].getType();
+    doc[5].getType();
+    doc[6].getType();
+    doc[7].getType();
+    doc[8].getType();
+    doc[9].getType();
+    doc.pushBackArray(sVal);
+    XCTAssertEqual(doc[0].getShort(), 1);
+    doc.pushBackArray(iVal);
+    XCTAssertEqual(doc[1].getInt(), 2);
+    doc.pushBackArray(lVal);
+    XCTAssertEqual(doc[2].getLong(), 3);
+    doc.pushBackArray(fVal);
+    XCTAssertEqualWithAccuracy(doc[3].getFloat(), 4.1f, std::numeric_limits<float>::epsilon());
+    doc.pushBackArray(dVal);
+    XCTAssertEqualWithAccuracy(doc[4].getDouble(), 5.1, std::numeric_limits<double>::epsilon());
+    doc.pushBackArray(ccVal);
+    XCTAssertEqual(doc[5].getString(), "const char*");
+    doc.pushBackArray(strVal);
+    XCTAssertEqual(doc[6].getString(), "string");
+    doc.pushBackArray(bVal);
+    XCTAssertEqual(doc[7].getBoolean(), false);
+    doc.pushBackArray(nVal);
+    XCTAssertEqual(doc[8].isNull(), true);
+
+    doc.deserialize("{\"key\":\"value\"}");
+    doc.pushBackArray(1);
+    XCTAssertEqual(doc.serialize(), "{\"key\":\"value\"}");
+    doc["key"].pushBackArray("2");
+    XCTAssertEqual(doc.serialize(), "{\"key\":\"value\"}");
+}
+
 @end
