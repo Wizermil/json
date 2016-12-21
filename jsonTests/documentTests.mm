@@ -4770,6 +4770,27 @@
     XCTAssertEqual(doc.serialize(), "{\"key\":[{\"1\":1},{\"2\":\"2\"},{\"3\":true},{\"4\":false},{\"5\":null},[null]]}");
     doc.deserialize("{\"key\":[[\"tata\"],[1],[true],[2],[false],[3],[null]]}");
     XCTAssertEqual(doc.serialize(), "{\"key\":[[\"tata\"],[1],[true],[2],[false],[3],[null]]}");
+
+    doc.deserialize("{\"key\":null}");
+    doc["key2"].getType();
+    XCTAssertEqual(doc.serialize(), "{\"key\":null}");
+    doc.deserialize("[\"value1\",null]");
+    doc[2].getType();
+    XCTAssertEqual(doc.serialize(), "[\"value1\",null]");
+
+    doc.deserialize("{\"key\":null,\"key2\":{\"key21\":1}, \"key3\":\"3\"}");
+    doc["key4"].getType();
+    XCTAssertEqual(doc.serialize(), "{\"key3\":\"3\",\"key2\":{\"key21\":1},\"key\":null}");
+    doc["key2"]["key22"].getType();
+    XCTAssertEqual(doc.serialize(), "{\"key3\":\"3\",\"key2\":{\"key21\":1},\"key\":null}");
+    doc.deserialize("[\"value1\",{\"key\":null},null,[1,2]]");
+    doc[4].getType();
+    std::string test = doc.serialize();
+    XCTAssertEqual(doc.serialize(), "[\"value1\",{\"key\":null},null,[1,2]]");
+    doc[1]["key2"].getType();
+    XCTAssertEqual(doc.serialize(), "[\"value1\",{\"key\":null},null,[1,2]]");
+    doc[3][2].getType();
+    XCTAssertEqual(doc.serialize(), "[\"value1\",{\"key\":null},null,[1,2]]");
 }
 
 - (void)testAccessOverload {

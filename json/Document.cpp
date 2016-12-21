@@ -1333,11 +1333,26 @@ std::string Document::serialize() const
     {
         current.itObject = _object.begin();
         current.endObject = _object.end();
+
+        for (const auto& itTmp : _object)
+        {
+            if (itTmp.second->_type == Kind::UNKNOWN)
+            {
+                current.unknownTypeCount++;
+            }
+        }
     }
     else if (_type == Kind::ARRAY)
     {
         current.itArray = _array.begin();
         current.endArray = _array.end();
+        for (const auto& itTmp : _array)
+        {
+            if (itTmp->_type == Kind::UNKNOWN)
+            {
+                current.unknownTypeCount++;
+            }
+        }
     }
     current.doc = this;
 
@@ -1353,7 +1368,7 @@ std::string Document::serialize() const
     {
         if (current.type == Kind::OBJECT)
         {
-            if (current.doc->_object.begin() != current.itObject && current.doc->_object.size() > 1 && ++current.valueCount < current.doc->_object.size())
+            if (current.doc->_object.begin() != current.itObject && (current.doc->_object.size()-current.unknownTypeCount) > 1 && ++current.valueCount < (current.doc->_object.size()-current.unknownTypeCount))
                 ret << ',';
             breakLoop = false;
             for (auto& it = current.itObject; it != current.endObject; it++)
@@ -1361,7 +1376,7 @@ std::string Document::serialize() const
                 switch (it->second->_type)
                 {
                     case Kind::UNKNOWN:
-                        break;
+                        continue;
                     case Kind::OBJECT:
                     case Kind::ARRAY:
                     {
@@ -1376,12 +1391,28 @@ std::string Document::serialize() const
                             ret << '{';
                             c.itObject = it->second->_object.begin();
                             c.endObject = it->second->_object.end();
+
+                            for (const auto& itTmp : it->second->_object)
+                            {
+                                if (itTmp.second->_type == Kind::UNKNOWN)
+                                {
+                                    c.unknownTypeCount++;
+                                }
+                            }
                         }
                         else if (c.type == Kind::ARRAY)
                         {
                             ret << '[';
                             c.itArray = it->second->_array.begin();
                             c.endArray = it->second->_array.end();
+
+                            for (const auto& itTmp : it->second->_array)
+                            {
+                                if (itTmp->_type == Kind::UNKNOWN)
+                                {
+                                    c.unknownTypeCount++;
+                                }
+                            }
                         }
                         c.doc = it->second.get();
 
@@ -1417,13 +1448,13 @@ std::string Document::serialize() const
                 }
                 if (breakLoop)
                     break;
-                if (current.doc->_object.size() > 1 && ++current.valueCount < current.doc->_object.size())
+                if ((current.doc->_object.size()-current.unknownTypeCount) > 1 && ++current.valueCount < (current.doc->_object.size()-current.unknownTypeCount))
                     ret << ',';
             }
         }
         else if (current.type == Kind::ARRAY)
         {
-            if (current.doc->_array.begin() != current.itArray && current.doc->_array.size() > 1 && ++current.valueCount < current.doc->_array.size())
+            if (current.doc->_array.begin() != current.itArray && (current.doc->_array.size()-current.unknownTypeCount) > 1 && ++current.valueCount < (current.doc->_array.size()-current.unknownTypeCount))
                 ret << ',';
             breakLoop = false;
             for (auto& it = current.itArray; it != current.endArray; it++)
@@ -1431,7 +1462,7 @@ std::string Document::serialize() const
                 switch ((*it)->_type)
                 {
                     case Kind::UNKNOWN:
-                        break;
+                        continue;
                     case Kind::OBJECT:
                     case Kind::ARRAY:
                     {
@@ -1442,12 +1473,28 @@ std::string Document::serialize() const
                             ret << '{';
                             c.itObject = (*it)->_object.begin();
                             c.endObject = (*it)->_object.end();
+
+                            for (const auto& itTmp : (*it)->_object)
+                            {
+                                if (itTmp.second->_type == Kind::UNKNOWN)
+                                {
+                                    c.unknownTypeCount++;
+                                }
+                            }
                         }
                         else if (c.type == Kind::ARRAY)
                         {
                             ret << '[';
                             c.itArray = (*it)->_array.begin();
                             c.endArray = (*it)->_array.end();
+
+                            for (const auto& itTmp : (*it)->_array)
+                            {
+                                if (itTmp->_type == Kind::UNKNOWN)
+                                {
+                                    c.unknownTypeCount++;
+                                }
+                            }
                         }
                         c.doc = (*it).get();
 
@@ -1475,7 +1522,7 @@ std::string Document::serialize() const
                 }
                 if (breakLoop)
                     break;
-                if (current.doc->_array.size() > 1 && ++current.valueCount < current.doc->_array.size())
+                if ((current.doc->_array.size()-current.unknownTypeCount) > 1 && ++current.valueCount < (current.doc->_array.size()-current.unknownTypeCount))
                     ret << ',';
             }
         }

@@ -36,12 +36,14 @@ using namespace json;
 SerializeContext::SerializeContext() : type(Kind::UNKNOWN)
 , doc(nullptr)
 , valueCount(0)
+, unknownTypeCount(0)
 {
 }
 
 SerializeContext::SerializeContext(SerializeContext&& other) noexcept : type(Kind::UNKNOWN)
 , doc(nullptr)
 , valueCount(0)
+, unknownTypeCount(0)
 {
     *this = std::move(other);
 }
@@ -90,7 +92,9 @@ SerializeContext& SerializeContext::operator =(SerializeContext&& other) noexcep
     doc = std::move(other.doc);
     other.doc = nullptr;
     valueCount = other.valueCount;
+    unknownTypeCount = other.unknownTypeCount;
     other.valueCount = 0;
+    other.unknownTypeCount = 0;
     return *this;
 }
 

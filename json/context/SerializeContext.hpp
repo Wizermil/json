@@ -62,5 +62,6 @@ namespace json
         };
         const Document* doc;
         std::size_t valueCount;
+        std::size_t unknownTypeCount;
     };
 }
