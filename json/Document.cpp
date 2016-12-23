@@ -417,6 +417,55 @@ long Document::getLongSafe(long def) const noexcept
     return def;
 }
 
+long long Document::getLongLong() const
+{
+    long double ret = 0;
+    switch (_type)
+    {
+        case Kind::UNKNOWN:
+        case Kind::OBJECT:
+        case Kind::ARRAY:
+            throw BadValue();
+        case Kind::STRING:
+        {
+            std::string tmp(_s);
+            std::transform(_s.begin(), _s.end(), tmp.begin(), ::tolower);
+            if (tmp == "true")
+                ret = 1;
+            else if (tmp == "false" || tmp == "null")
+                ret = 0;
+            else
+                ret = std::stold(_s);
+            break;
+        }
+        case Kind::NUMBER_FRAC:
+        case Kind::NUMBER:
+            ret = _n;
+            break;
+        case Kind::BOOLEAN:
+            ret = _b?1:0;
+            break;
+        case Kind::VOID:
+            ret = 0;
+            break;
+    }
+    if (ret < std::numeric_limits<long long>::min() || ret > std::numeric_limits<long long>::max())
+        throw std::out_of_range("reach long long limit");
+    return static_cast<long long>(ret);
+}
+
+long long Document::getLongLongSafe(long long def) const noexcept
+{
+    try
+    {
+        return getLongLong();
+    }
+    catch(...)
+    {
+    }
+    return def;
+}
+
 float Document::getFloat() const
 {
     long double ret = 0;
@@ -700,6 +749,18 @@ long Document::getLongAt(std::size_t index) const
         throw BadValue();
 }
 
+long long Document::getLongLongAt(std::size_t index) const
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (index >= _array.size())
+            throw std::out_of_range("wrong index");
+        return _array[index]->getLongLong();
+    }
+    else
+        throw BadValue();
+}
+
 float Document::getFloatAt(std::size_t index) const
 {
     if (_type == Kind::ARRAY)
@@ -822,6 +883,14 @@ long Document::getLongSafeAt(std::size_t index, long def) const noexcept
         return def;
 }
 
+long long Document::getLongLongSafeAt(std::size_t index, long long def) const noexcept
+{
+    if (_type == Kind::ARRAY && index < _array.size())
+        return _array[index]->getLongLongSafe(def);
+        else
+            return def;
+}
+
 float Document::getFloatSafeAt(std::size_t index, float def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
@@ -905,6 +974,20 @@ long Document::getLongFrom(const std::string& key) const
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLong();
+        else
+            throw std::out_of_range("wrong key");
+    }
+    else
+        throw BadValue();
+}
+
+long long Document::getLongLongFrom(const std::string& key) const
+{
+    if (_type == Kind::OBJECT)
+    {
+        const auto& it = _object.find(key);
+        if (it != _object.end())
+            return it->second->getLongLong();
         else
             throw std::out_of_range("wrong key");
     }
@@ -1064,6 +1147,17 @@ long Document::getLongSafeFrom(const std::string& key, long def) const noexcept
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLongSafe(def);
+    }
+    return def;
+}
+
+long long Document::getLongLongSafeFrom(const std::string& key, long long def) const noexcept
+{
+    if (_type == Kind::OBJECT)
+    {
+        const auto& it = _object.find(key);
+        if (it != _object.end())
+            return it->second->getLongLongSafe(def);
     }
     return def;
 }
@@ -1259,6 +1353,32 @@ void Document::pushBackArray(const long val) noexcept
         _array.emplace_back(std::move(newValue));
     }
 }
+void Document::pushBackArray(const long long val) noexcept
+{
+    if (_type == Kind::ARRAY)
+    {
+        if (_array.size() > 0)
+        {
+            std::vector<std::shared_ptr<Document>>::reverse_iterator it = _array.rbegin();
+            for (; it != _array.rend(); ++it)
+            {
+                if (it->get()->_type != Kind::UNKNOWN)
+                {
+                    break;
+                }
+            }
+            if (it != _array.rbegin())
+            {
+                (--it)->get()->setNumber(val);
+                return;
+            }
+        }
+        
+        auto newValue = std::make_shared<Document>();
+        newValue->setNumber(val);
+        _array.emplace_back(std::move(newValue));
+    }
+}
 void Document::pushBackArray(const float val) noexcept
 {
     if (_type == Kind::ARRAY)
@@ -1433,6 +1553,12 @@ Document& Document::operator =(const long val)
     setNumber(val);
     return *this;
 }
+    
+Document& Document::operator =(const long long val)
+{
+    setNumber(val);
+    return *this;
+}
 
 Document& Document::operator =(const float val)
 {
@@ -1487,6 +1613,14 @@ bool Document::operator ==(const int val) const
 }
 
 bool Document::operator ==(const long val) const
+{
+    bool ret(false);
+    if (_type == Kind::NUMBER && std::abs(_n-val) < std::numeric_limits<long double>::epsilon())
+        ret = true;
+    return ret;
+}
+    
+bool Document::operator ==(const long long val) const
 {
     bool ret(false);
     if (_type == Kind::NUMBER && std::abs(_n-val) < std::numeric_limits<long double>::epsilon())
@@ -1934,6 +2068,11 @@ bool Document::operator !=(const int val) const
 }
 
 bool Document::operator !=(const long b) const
+{
+    return !(*this == b);
+}
+    
+bool Document::operator !=(const long long b) const
 {
     return !(*this == b);
 }
