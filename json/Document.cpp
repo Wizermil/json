@@ -2485,8 +2485,10 @@ void Document::deserialize(ParseErrorContext& errorCtx)
             previousChar = c;
         }
 
-        if (ctx.state == ParseContext::State::OBJECT_START || ctx.state == ParseContext::State::ARRAY_START)
-            throw InvalidCharacter("Expect object or array to be correctly ended.", &errorCtx);
+        if (ctx.state == ParseContext::State::OBJECT_START)
+            throw InvalidCharacter("Expect object to be closed.", &errorCtx);
+        if (ctx.state == ParseContext::State::ARRAY_START)
+            throw InvalidCharacter("Expect array to be closed.", &errorCtx);
     }
 }
 
