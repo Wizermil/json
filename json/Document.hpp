@@ -131,6 +131,19 @@ namespace json
         long getLong() const;
         long getLongSafe(long def = -1) const noexcept;
         /**
+         Cast values to long long if it can otherwise throw.
+         
+         - Throws:
+         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
+         `json::NumberOverflow` if the short value is greater than what a short value can store.
+         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+         
+         Returns: a long representation of the value.
+         */
+        long long getLongLong() const;
+        long long getLongLongSafe(long long def = -1) const noexcept;
+        /**
          Cast values to float if it can otherwise throw.
 
          - Throws:
@@ -183,6 +196,8 @@ namespace json
         int getIntSafeAt(std::size_t index, int def = -1) const noexcept;
         long getLongAt(std::size_t index) const;
         long getLongSafeAt(std::size_t index, long def = -1) const noexcept;
+        long long getLongLongAt(std::size_t index) const;
+        long long getLongLongSafeAt(std::size_t index, long long def = -1) const noexcept;
         float getFloatAt(std::size_t index) const;
         float getFloatSafeAt(std::size_t index, float def = -1) const noexcept;
         double getDoubleAt(std::size_t index) const;
@@ -201,6 +216,7 @@ namespace json
         void pushBackArray(const short val) noexcept;
         void pushBackArray(const int val) noexcept;
         void pushBackArray(const long val) noexcept;
+        void pushBackArray(const long long val) noexcept;
         void pushBackArray(const float val) noexcept;
         void pushBackArray(const double val) noexcept;
         void pushBackArray(const char* val) noexcept;
@@ -217,6 +233,8 @@ namespace json
         int getIntSafeFrom(const std::string& key, int def = -1) const noexcept;
         long getLongFrom(const std::string& key) const;
         long getLongSafeFrom(const std::string& key, long def = -1) const noexcept;
+        long long getLongLongFrom(const std::string& key) const;
+        long long getLongLongSafeFrom(const std::string& key, long long def = -1) const noexcept;
         float getFloatFrom(const std::string& key) const;
         float getFloatSafeFrom(const std::string& key, float def = -1) const noexcept;
         double getDoubleFrom(const std::string& key) const;
@@ -255,6 +273,7 @@ namespace json
         Document& operator =(const short val);
         Document& operator =(const int val);
         Document& operator =(const long val);
+        Document& operator =(const long long val);
         Document& operator =(const float val);
         Document& operator =(const double val);
         Document& operator =(const char* val);
@@ -276,6 +295,7 @@ namespace json
         bool operator ==(const short val) const;
         bool operator ==(const int val) const;
         bool operator ==(const long val) const;
+        bool operator ==(const long long val) const;
         bool operator ==(const float val) const;
         bool operator ==(const double val) const;
         bool operator ==(const char* val) const;
@@ -286,6 +306,7 @@ namespace json
         bool operator !=(const short val) const;
         bool operator !=(const int val) const;
         bool operator !=(const long val) const;
+        bool operator !=(const long long val) const;
         bool operator !=(const float val) const;
         bool operator !=(const double val) const;
         bool operator !=(const char* val) const;
