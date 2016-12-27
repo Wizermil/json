@@ -1,6 +1,6 @@
 //
 // valueTests.m
-// json
+// jsonTests
 //
 // Created by Mathieu Garaud on 23/07/16.
 //
