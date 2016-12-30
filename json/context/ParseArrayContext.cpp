@@ -1,8 +1,8 @@
 //
-// ParseErrorContext.hpp
+// ParseArrayContext.cpp
 // json
 //
-// Created by Mathieu Garaud on 17/08/16.
+// Created by Mathieu Garaud on 26/12/16.
 //
 // MIT License
 //
@@ -27,29 +27,42 @@
 // SOFTWARE.
 //
 
-#pragma once
+#include "ParseContext.hpp"
 
-#include <cstddef>
-#include <istream>
-#include <string>
+#include "../Document.hpp"
 
-namespace json
+using namespace json;
+
+ParseArrayContext::ParseArrayContext() : doc(Kind::ARRAY)
+, state(State::UNKNOWN)
+, value(ParseContextValue::UNKNOWN)
+, numCtx(ParseNumberContext::DIGIT)
+, commaCount(0)
 {
-    enum struct Encoding : std::uint8_t;
+}
 
-    struct ParseErrorContext
-    {
-        ParseErrorContext();
-        ParseErrorContext(ParseErrorContext&& other) noexcept =delete;
-        ParseErrorContext& operator=(ParseErrorContext&& other) noexcept =delete;
-        ParseErrorContext(const ParseErrorContext& other) = delete;
-        ParseErrorContext& operator=(const ParseErrorContext& other) = delete;
-        ~ParseErrorContext() = default;
+ParseArrayContext::ParseArrayContext(ParseArrayContext&& other) noexcept : doc(std::move(other.doc))
+, state(other.state)
+, value(other.value)
+, numCtx(other.numCtx)
+, commaCount(other.commaCount)
+{
+    other.state = State::UNKNOWN;
+    other.value = ParseContextValue::UNKNOWN;
+    other.numCtx = ParseNumberContext::DIGIT;
+    other.commaCount = 0;
+}
 
-        std::size_t line;
-        std::size_t column;
-        std::istream* stream;
-        Encoding enc;
-        std::string filename;
-    };
+ParseArrayContext& ParseArrayContext::operator=(ParseArrayContext&& other) noexcept
+{
+    doc = std::move(other.doc);
+    state = other.state;
+    value = other.value;
+    numCtx = other.numCtx;
+    commaCount = other.commaCount;
+    other.state = State::UNKNOWN;
+    other.value = ParseContextValue::UNKNOWN;
+    other.numCtx = ParseNumberContext::DIGIT;
+    other.commaCount = 0;
+    return *this;
 }

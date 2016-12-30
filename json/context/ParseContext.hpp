@@ -29,70 +29,62 @@
 
 #pragma once
 
-#include <cstdint>
-#include <sstream>
 #include "../Document.hpp"
+#include "ParseArrayContext.hpp"
+#include "ParseObjectContext.hpp"
+#include <cstdint>
+#include <memory>
+#include <sstream>
 
 namespace json
 {
+    enum struct ParseContextValue : std::uint8_t
+    {
+        UNKNOWN,
+        NEXT,
+        STRING,
+        NUMBER,
+        VOID,
+        BOOLEAN,
+        OBJECT,
+        ARRAY
+    };
+
+    enum struct ParseNumberContext : std::uint8_t
+    {
+        DIGIT = 1 << 0,
+        SIGN = 1 << 1,
+        FRAC = 1 << 2,
+        EXP = 1 << 3
+    };
 
     struct ParseContext
     {
-        enum struct State : std::uint8_t
-        {
-            UNKNOWN,
-            OBJECT_START,
-            OBJECT_END,
-            ARRAY_START,
-            ARRAY_END
-        };
-
-        enum struct StateValue : std::uint8_t
-        {
-            UNKNOWN,
-            NEXT,
-            STRING,
-            NUMBER,
-            VOID,
-            BOOLEAN,
-        };
-
-        enum struct StateNumber : std::uint8_t
-        {
-            DIGIT = 0,
-            SIGN = 1,
-            FRAC = 2,
-            EXP = 4
-        };
-
-        enum struct StateKey : std::uint8_t
-        {
-            UNKNOWN,
-            KEY_START,
-            KEY_END,
-            KEY_VALID
-        };
-
-        ParseContext();
-        ParseContext(ParseContext&& other) noexcept;
-        ParseContext& operator=(ParseContext&& other) noexcept;
+        ParseContext() =delete;
+        ParseContext(ParseContextValue kind);
+        ParseContext(ParseContext&& other) noexcept =delete;
+        ParseContext& operator=(ParseContext&& other) noexcept =delete;
         ParseContext(const ParseContext& other) = delete;
         ParseContext& operator=(const ParseContext& other) = delete;
-        ~ParseContext() = default;
+        ~ParseContext();
+
+
+        ParseContextValue getType() const noexcept;
+        void setType(ParseContextValue t) noexcept;
+
+        ParseNumberContext getNumberContext() const noexcept;
+        void setNumberContext(ParseNumberContext t) noexcept;
         
-        State state;
-        StateKey keyState;
-        StateValue valueState;
-        std::string key;
-        Document doc;
-        std::size_t commaCount;
-        std::size_t colonCount;
-        std::size_t duplicatedKeys;
+        ParseContextValue type;
+        union {
+            ParseObjectContext objCtx;
+            ParseArrayContext arrCtx;
+            ParseNumberContext numCtx;
+        };
+
     };
 
-    ParseContext::StateNumber operator|(const ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs);
-    ParseContext::StateNumber& operator |=(ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs);
-    ParseContext::StateNumber operator&(const ParseContext::StateNumber &lhs, const ParseContext::StateNumber &rhs);
-    ParseContext::StateNumber& operator &=(ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs);
-    ParseContext::StateNumber operator~(const ParseContext::StateNumber &rhs);
+    ParseNumberContext operator|(const ParseNumberContext& lhs, const ParseNumberContext& rhs);
+    ParseNumberContext operator&(const ParseNumberContext& lhs, const ParseNumberContext& rhs);
+    ParseNumberContext operator~(const ParseNumberContext& rhs);
 }

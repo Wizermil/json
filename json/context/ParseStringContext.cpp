@@ -38,38 +38,13 @@ ParseStringContext::ParseStringContext() : high(0)
 , count(0)
 , surrogate(0)
 {
-
-}
-
-ParseStringContext::ParseStringContext(ParseStringContext&& other) noexcept : high(other.high)
-, count(other.count)
-, surrogate(other.surrogate)
-{
-    other.high = 0;
-    std::move(other.charString, other.charString+4, charString);
-    std::fill(other.charString, other.charString+4, '\0');
-    other.count = 0;
-    other.surrogate = 0;
-}
-
-ParseStringContext& ParseStringContext::operator=(ParseStringContext&& other) noexcept
-{
-    high = other.high;
-    std::move(other.charString, other.charString+4, charString);
-    count = other.count;
-    surrogate = other.surrogate;
-
-    other.high = 0;
-    std::fill(other.charString, other.charString+4, '\0');
-    other.count = 0;
-    other.surrogate = 0;
-    return *this;
+    charString.fill('\0');
 }
 
 void ParseStringContext::reset() noexcept
 {
     high = 0;
-    std::fill(charString, charString+4, '\0');
+    charString.fill('\0');
     count = 0;
     surrogate = 0;
 }

@@ -29,83 +29,122 @@
 
 #include "ParseContext.hpp"
 
-#include "../Document.hpp"
-
 using namespace json;
 
-ParseContext::ParseContext() : state(State::UNKNOWN)
-, keyState(StateKey::UNKNOWN)
-, valueState(StateValue::UNKNOWN)
-, key("")
-, doc()
-, commaCount(0)
-, colonCount(0)
-, duplicatedKeys(0)
+ParseContext::ParseContext(ParseContextValue kind) : type(kind)
 {
+    switch(type)
+    {
+        case ParseContextValue::OBJECT:
+            new(&objCtx) ParseObjectContext();
+            break;
+        case ParseContextValue::ARRAY:
+            new(&arrCtx) ParseArrayContext();
+            break;
+        case ParseContextValue::STRING:
+        case ParseContextValue::NUMBER:
+        case ParseContextValue::BOOLEAN:
+        case ParseContextValue::VOID:
+        case ParseContextValue::UNKNOWN:
+        case ParseContextValue::NEXT:
+            break;
+    }
+}
+ParseContext::~ParseContext()
+{
+    switch(type)
+    {
+        case ParseContextValue::OBJECT:
+            objCtx.~ParseObjectContext();
+            break;
+        case ParseContextValue::ARRAY:
+            arrCtx.~ParseArrayContext();
+            break;
+        case ParseContextValue::NUMBER:
+        case ParseContextValue::UNKNOWN:
+        case ParseContextValue::STRING:
+        case ParseContextValue::VOID:
+        case ParseContextValue::BOOLEAN:
+        case ParseContextValue::NEXT:
+            break;
+    };
 }
 
-ParseContext::ParseContext(ParseContext&& other) noexcept : state(other.state)
-, keyState(other.keyState)
-, valueState(other.valueState)
-, key(std::move(other.key))
-, doc(std::move(other.doc))
-, commaCount(other.commaCount)
-, colonCount(other.colonCount)
-, duplicatedKeys(other.duplicatedKeys)
+ParseContextValue ParseContext::getType() const noexcept
 {
-    other.state = State::UNKNOWN;
-    other.keyState = StateKey::UNKNOWN;
-    other.valueState = StateValue::UNKNOWN;
-    other.key = "";
-    other.commaCount = 0;
-    other.colonCount = 0;
-    other.duplicatedKeys = 0;
+    if (type == ParseContextValue::OBJECT && objCtx.state != ParseObjectContext::State::END && objCtx.keyState == ParseObjectContext::StateKey::VALID)
+    {
+        return objCtx.value;
+    }
+    else if (type == ParseContextValue::ARRAY && arrCtx.state != ParseArrayContext::State::END)
+    {
+        return arrCtx.value;
+    }
+    else
+    {
+        return type;
+    }
 }
 
-ParseContext& ParseContext::operator=(ParseContext&& other) noexcept
+void ParseContext::setType(ParseContextValue t) noexcept
 {
-    state = other.state;
-    keyState = other.keyState;
-    valueState = other.valueState;
-    key = std::move(other.key);
-    doc = std::move(other.doc);
-    commaCount = other.commaCount;
-    colonCount = other.colonCount;
-    duplicatedKeys = other.duplicatedKeys;
-
-    other.state = State::UNKNOWN;
-    other.keyState = StateKey::UNKNOWN;
-    other.valueState = StateValue::UNKNOWN;
-    other.key = "";
-    other.commaCount = 0;
-    other.colonCount = 0;
-    other.duplicatedKeys = 0;
-    return *this;
+    if (type == ParseContextValue::OBJECT)
+    {
+        objCtx.value = t;
+    }
+    else if (type == ParseContextValue::ARRAY)
+    {
+        arrCtx.value = t;
+    }
+    else
+    {
+        type = t;
+    }
 }
 
-ParseContext::StateNumber json::operator|(const ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs)
+ParseNumberContext ParseContext::getNumberContext() const noexcept
 {
-    return static_cast<ParseContext::StateNumber>(static_cast<std::uint8_t>(lhs) | static_cast<std::uint8_t>(rhs));
+    if (type == ParseContextValue::OBJECT && objCtx.state != ParseObjectContext::State::END)
+    {
+        return objCtx.numCtx;
+    }
+    else if (type == ParseContextValue::ARRAY && arrCtx.state != ParseArrayContext::State::END)
+    {
+        return arrCtx.numCtx;
+    }
+    else
+    {
+        return numCtx;
+    }
 }
 
-ParseContext::StateNumber& json::operator |=(ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs)
+void ParseContext::setNumberContext(ParseNumberContext t) noexcept
 {
-    lhs = static_cast<ParseContext::StateNumber>(static_cast<std::uint8_t>(lhs) | static_cast<std::uint8_t>(rhs));
-    return lhs;
+    if (type == ParseContextValue::OBJECT)
+    {
+        objCtx.numCtx = t;
+    }
+    else if (type == ParseContextValue::ARRAY)
+    {
+        arrCtx.numCtx = t;
+    }
+    else
+    {
+        numCtx = t;
+    }
 }
 
-ParseContext::StateNumber json::operator&(const ParseContext::StateNumber &lhs, const ParseContext::StateNumber &rhs)
+ParseNumberContext json::operator|(const ParseNumberContext& lhs, const ParseNumberContext& rhs)
 {
-    return static_cast<ParseContext::StateNumber>(static_cast<std::uint8_t>(lhs) & static_cast<std::uint8_t>(rhs));
+    return static_cast<ParseNumberContext>(static_cast<std::uint8_t>(lhs) | static_cast<std::uint8_t>(rhs));
 }
 
-ParseContext::StateNumber& json::operator &=(ParseContext::StateNumber& lhs, const ParseContext::StateNumber& rhs)
+ParseNumberContext json::operator&(const ParseNumberContext& lhs, const ParseNumberContext& rhs)
 {
-    lhs = static_cast<ParseContext::StateNumber>(static_cast<std::uint8_t>(lhs) & static_cast<std::uint8_t>(rhs));
-    return lhs;
+    return static_cast<ParseNumberContext>(static_cast<std::uint8_t>(lhs) & static_cast<std::uint8_t>(rhs));
 }
 
-ParseContext::StateNumber json::operator~(const ParseContext::StateNumber &rhs)
+ParseNumberContext json::operator~(const ParseNumberContext& rhs)
 {
-    return static_cast<ParseContext::StateNumber>(~static_cast<std::uint8_t>(rhs));
+    return static_cast<ParseNumberContext>(~static_cast<std::uint8_t>(rhs));
 }

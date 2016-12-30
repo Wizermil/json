@@ -39,32 +39,3 @@ ParseErrorContext::ParseErrorContext() : line(1)
 , filename("")
 {
 }
-
-ParseErrorContext::ParseErrorContext(ParseErrorContext&& other) noexcept : line(other.line)
-, column(other.column)
-, stream(other.stream)
-, enc(other.enc)
-, filename(std::move(other.filename))
-{
-    other.line = 1;
-    other.column = 0;
-    other.stream = nullptr;
-    other.enc = Encoding::UTF8;
-    other.filename = "";
-}
-
-ParseErrorContext& ParseErrorContext::operator=(ParseErrorContext&& other) noexcept
-{
-    line = other.line;
-    column = other.column;
-    stream = other.stream;
-    enc = other.enc;
-    filename = std::move(other.filename);
-
-    other.line = 1;
-    other.column = 0;
-    other.stream = nullptr;
-    other.enc = Encoding::UTF8;
-    other.filename = "";
-    return *this;
-}

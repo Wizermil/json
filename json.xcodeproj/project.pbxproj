@@ -348,6 +348,10 @@
 		22694C421E12A56200144FBF /* y_structure_trailing_newline.json in Resources */ = {isa = PBXBuildFile; fileRef = 22694B041E12A56200144FBF /* y_structure_trailing_newline.json */; };
 		22694C431E12A56200144FBF /* y_structure_true_in_array.json in Resources */ = {isa = PBXBuildFile; fileRef = 22694B051E12A56200144FBF /* y_structure_true_in_array.json */; };
 		22694C441E12A56200144FBF /* y_structure_whitespace_array.json in Resources */ = {isa = PBXBuildFile; fileRef = 22694B061E12A56200144FBF /* y_structure_whitespace_array.json */; };
+		22694C471E13149F00144FBF /* ParseObjectContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22694C451E13149F00144FBF /* ParseObjectContext.cpp */; };
+		22694C481E13149F00144FBF /* ParseObjectContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 22694C461E13149F00144FBF /* ParseObjectContext.hpp */; };
+		22694C4B1E13196400144FBF /* ParseArrayContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 22694C491E13196400144FBF /* ParseArrayContext.cpp */; };
+		22694C4C1E13196400144FBF /* ParseArrayContext.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 22694C4A1E13196400144FBF /* ParseArrayContext.hpp */; };
 		22EDF3D11E0BCDE400144FBF /* jsonTestSuite.mm in Sources */ = {isa = PBXBuildFile; fileRef = 22EDF3D01E0BCDE400144FBF /* jsonTestSuite.mm */; };
 /* End PBXBuildFile section */
 
@@ -706,6 +710,10 @@
 		22694B041E12A56200144FBF /* y_structure_trailing_newline.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = y_structure_trailing_newline.json; sourceTree = "<group>"; };
 		22694B051E12A56200144FBF /* y_structure_true_in_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = y_structure_true_in_array.json; sourceTree = "<group>"; };
 		22694B061E12A56200144FBF /* y_structure_whitespace_array.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = y_structure_whitespace_array.json; sourceTree = "<group>"; };
+		22694C451E13149F00144FBF /* ParseObjectContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseObjectContext.cpp; sourceTree = "<group>"; };
+		22694C461E13149F00144FBF /* ParseObjectContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParseObjectContext.hpp; sourceTree = "<group>"; };
+		22694C491E13196400144FBF /* ParseArrayContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseArrayContext.cpp; sourceTree = "<group>"; };
+		22694C4A1E13196400144FBF /* ParseArrayContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParseArrayContext.hpp; sourceTree = "<group>"; };
 		22EDF3D01E0BCDE400144FBF /* jsonTestSuite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = jsonTestSuite.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -776,10 +784,14 @@
 		222E5C741D9297CB00144FBF /* context */ = {
 			isa = PBXGroup;
 			children = (
+				22694C491E13196400144FBF /* ParseArrayContext.cpp */,
+				22694C4A1E13196400144FBF /* ParseArrayContext.hpp */,
 				222E5C751D9297CB00144FBF /* ParseContext.cpp */,
 				222E5C761D9297CB00144FBF /* ParseContext.hpp */,
 				222E5C771D9297CB00144FBF /* ParseErrorContext.cpp */,
 				222E5C781D9297CB00144FBF /* ParseErrorContext.hpp */,
+				22694C451E13149F00144FBF /* ParseObjectContext.cpp */,
+				22694C461E13149F00144FBF /* ParseObjectContext.hpp */,
 				222E5C791D9297CB00144FBF /* ParseStringContext.cpp */,
 				222E5C7A1D9297CB00144FBF /* ParseStringContext.hpp */,
 				2262C67C1DB3CC3C00144FBF /* SerializeContext.cpp */,
@@ -1156,7 +1168,9 @@
 				2262C67F1DB3CC3C00144FBF /* SerializeContext.hpp in Headers */,
 				222E5CA01D9297CB00144FBF /* BadValue.hpp in Headers */,
 				222E5C941D9297CB00144FBF /* ParseContext.hpp in Headers */,
+				22694C4C1E13196400144FBF /* ParseArrayContext.hpp in Headers */,
 				222E5CAA1D9297CB00144FBF /* OStringStream.hpp in Headers */,
+				22694C481E13149F00144FBF /* ParseObjectContext.hpp in Headers */,
 				222E5C6B1D92975100144FBF /* json.h in Headers */,
 				222E5CAC1D9297CB00144FBF /* Stringbuf.hpp in Headers */,
 				222E5C981D9297CB00144FBF /* ParseStringContext.hpp in Headers */,
@@ -1583,6 +1597,8 @@
 			files = (
 				222E5CA91D9297CB00144FBF /* OStringStream.cpp in Sources */,
 				222E5C9F1D9297CB00144FBF /* BadValue.cpp in Sources */,
+				22694C471E13149F00144FBF /* ParseObjectContext.cpp in Sources */,
+				22694C4B1E13196400144FBF /* ParseArrayContext.cpp in Sources */,
 				222E5CAD1D9297CB00144FBF /* Document.cpp in Sources */,
 				222E5CA11D9297CB00144FBF /* InvalidCharacter.cpp in Sources */,
 				2262C67E1DB3CC3C00144FBF /* SerializeContext.cpp in Sources */,
@@ -1724,11 +1740,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-fsanitize=undefined-trap",
-					"-fsanitize-undefined-trap-on-error",
-				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

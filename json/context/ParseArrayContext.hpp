@@ -1,8 +1,8 @@
 //
-// ParseErrorContext.hpp
+// ParseObjectContext.hpp
 // json
 //
-// Created by Mathieu Garaud on 17/08/16.
+// Created by Mathieu Garaud on 27/12/16.
 //
 // MIT License
 //
@@ -30,26 +30,34 @@
 #pragma once
 
 #include <cstddef>
-#include <istream>
-#include <string>
 
 namespace json
 {
-    enum struct Encoding : std::uint8_t;
+    enum struct ParseContextValue : std::uint8_t;
+    enum struct ParseNumberContext : std::uint8_t;
 
-    struct ParseErrorContext
+    struct ParseArrayContext
     {
-        ParseErrorContext();
-        ParseErrorContext(ParseErrorContext&& other) noexcept =delete;
-        ParseErrorContext& operator=(ParseErrorContext&& other) noexcept =delete;
-        ParseErrorContext(const ParseErrorContext& other) = delete;
-        ParseErrorContext& operator=(const ParseErrorContext& other) = delete;
-        ~ParseErrorContext() = default;
+        enum struct State : std::uint8_t
+        {
+            UNKNOWN,
+            START,
+            END
+        };
 
-        std::size_t line;
-        std::size_t column;
-        std::istream* stream;
-        Encoding enc;
-        std::string filename;
+        ParseArrayContext();
+        ParseArrayContext(ParseArrayContext&& other) noexcept;
+        ParseArrayContext& operator=(ParseArrayContext&& other) noexcept;
+        ParseArrayContext(const ParseArrayContext& other) = delete;
+        ParseArrayContext& operator=(const ParseArrayContext& other) = delete;
+        ~ParseArrayContext() = default;
+
+        Document doc;
+        State state;
+        ParseContextValue value;
+        ParseNumberContext numCtx;
+        
+        std::size_t commaCount;
     };
+
 }

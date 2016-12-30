@@ -61,10 +61,11 @@ static bool fail(const std::string& json)
     return ret;
 }
 
-- (void)testFail1 {
+// Ignore this test based on this article: http://seriot.ch/parsing_json.php
+/*- (void)testFail1 {
     bool ret = fail("\"A JSON payload should be an object or array, not a string.\"");
     XCTAssertEqual(ret, true);
-}
+}*/
 - (void)testFail2 {
     bool ret = fail("[\"Unclosed array\"");
     XCTAssertEqual(ret, true);

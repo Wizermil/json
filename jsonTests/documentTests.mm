@@ -133,8 +133,6 @@
 - (void)testParsingSmallestJSON {
     json::Document doc;
 
-    XCTAssertNoThrow(doc.deserialize(""));
-
     XCTAssertNoThrow(doc.deserialize("{}"));
     XCTAssertNoThrow(doc.deserialize(" {}"));
     XCTAssertNoThrow(doc.deserialize(" { }"));
@@ -188,6 +186,13 @@
     XCTAssertNotEqual(ic, nullptr);
     ic = nullptr;
     try {
+        doc.deserialize("");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
         doc.deserialize("a");
     } catch (const json::InvalidCharacter& e) {
         ic = &e;
@@ -195,7 +200,112 @@
     XCTAssertNotEqual(ic, nullptr);
     ic = nullptr;
     try {
+        doc.deserialize("\"a\"");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("\"\\uD800");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("\"a\" \t \"b\"");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
         doc.deserialize("1");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("1 2");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("1, 2");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("1.2");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("1.2 3.4");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("1.2 ,3.4");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("true");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize(" true    false  ");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize(" true  ,  false  ");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("false");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("null");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("  null\tnull");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize("  null\t,null");
     } catch (const json::InvalidCharacter& e) {
         ic = &e;
     }

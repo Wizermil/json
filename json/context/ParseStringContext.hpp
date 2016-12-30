@@ -30,6 +30,7 @@
 #pragma once
 
 #include <cstdint>
+#include <array>
 
 namespace json
 {
@@ -37,8 +38,8 @@ namespace json
     struct ParseStringContext
     {
         ParseStringContext();
-        ParseStringContext(ParseStringContext&& other) noexcept;
-        ParseStringContext& operator=(ParseStringContext&& other) noexcept;
+        ParseStringContext(ParseStringContext&& other) noexcept =delete;
+        ParseStringContext& operator=(ParseStringContext&& other) noexcept =delete;
         ParseStringContext(const ParseStringContext& other) = delete;
         ParseStringContext& operator=(const ParseStringContext& other) = delete;
         ~ParseStringContext() = default;
@@ -46,7 +47,7 @@ namespace json
         void reset() noexcept;
 
         std::uint16_t high;
-        char charString[5];
+        std::array<char, 5> charString;
         std::uint8_t count;
         std::uint8_t surrogate;
     };

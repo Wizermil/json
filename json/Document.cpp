@@ -47,7 +47,6 @@
 #include <limits>
 #include <memory>
 #include <sstream>
-#include <stack>
 #include <stdexcept>
 
 using namespace json;
@@ -92,11 +91,17 @@ Document::Document(const Document& other) : _type(Kind::UNKNOWN)
 Document& Document::operator =(const Document& other)
 {
     if (_type == Kind::STRING && other._type == Kind::STRING)
+    {
         _s = other._s;
+    }
     else if (_type == Kind::OBJECT && other._type == Kind::OBJECT)
+    {
         _object = other._object;
+    }
     else if (_type == Kind::ARRAY && other._type == Kind::ARRAY)
+    {
         _array = other._array;
+    }
     else
     {
         clean();
@@ -135,11 +140,17 @@ Document::Document(Document&& other) noexcept : _type(Kind::UNKNOWN)
 Document& Document::operator=(Document&& other) noexcept
 {
     if (_type == Kind::STRING && other._type == Kind::STRING)
+    {
         _s = std::move(other._s);
+    }
     else if (_type == Kind::OBJECT && other._type == Kind::OBJECT)
+    {
         _object = std::move(other._object);
+    }
     else if (_type == Kind::ARRAY && other._type == Kind::ARRAY)
+    {
         _array = std::move(other._array);
+    }
     else
     {
         clean();
@@ -198,7 +209,9 @@ void Document::setArray(Array&& val) noexcept
 void Document::setString(const std::string& val) noexcept
 {
     if (_type == Kind::STRING)
+    {
         _s = val;
+    }
     else
     {
         clean();
@@ -213,9 +226,13 @@ void Document::setNumber(const long double val) noexcept
 
     const long double ldVal = std::floor(val);
     if (ldVal > val || ldVal < val)
+    {
         _type = Kind::NUMBER_FRAC;
+    }
     else
+    {
         _type = Kind::NUMBER;
+    }
     _n = val;
 }
 
@@ -263,11 +280,17 @@ std::size_t Document::getSize() const noexcept
 void Document::clean() noexcept
 {
     if (_type == Kind::STRING)
+    {
         _s.~string();
+    }
     else if (_type == Kind::OBJECT)
+    {
         _object.~unordered_map<std::string, std::shared_ptr<Document>>();
+    }
     else if (_type == Kind::ARRAY)
+    {
         _array.~vector<std::shared_ptr<Document>>();
+    }
 }
 
 short Document::getShort() const
@@ -710,7 +733,7 @@ bool Document::isNull() const noexcept
     bool ret = false;
     if (_type == Kind::VOID)
         ret = true;
-    return ret;
+        return ret;
 }
 
 short Document::getShortAt(std::size_t index) const
@@ -863,24 +886,24 @@ short Document::getShortSafeAt(std::size_t index, short def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getShortSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 int Document::getIntSafeAt(std::size_t index, int def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getIntSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 long Document::getLongSafeAt(std::size_t index, long def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getLongSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 long long Document::getLongLongSafeAt(std::size_t index, long long def) const noexcept
@@ -895,48 +918,48 @@ float Document::getFloatSafeAt(std::size_t index, float def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getFloatSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 double Document::getDoubleSafeAt(std::size_t index, double def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getDoubleSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 std::string Document::getStringSafeAt(std::size_t index, const std::string& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getStringSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 bool Document::getBooleanSafeAt(std::size_t index, bool def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getBooleanSafe(def);
-    else
-        return def;
+        else
+            return def;
 }
 
 Object& Document::getObjectSafeAt(std::size_t index, const Object& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getObjectSafe(def);
-    else
-        return const_cast<Object&>(def);
+        else
+            return const_cast<Object&>(def);
 }
 
 Array& Document::getArraySafeAt(std::size_t index, const Array& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getArraySafe(def);
-    else
-        return const_cast<Array&>(def);
+        else
+            return const_cast<Array&>(def);
 }
 
 short Document::getShortFrom(const std::string& key) const
@@ -1125,7 +1148,7 @@ short Document::getShortSafeFrom(const std::string& key, short def) const noexce
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getShortSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1136,7 +1159,7 @@ int Document::getIntSafeFrom(const std::string& key, int def) const noexcept
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getIntSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1147,7 +1170,7 @@ long Document::getLongSafeFrom(const std::string& key, long def) const noexcept
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLongSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1158,7 +1181,7 @@ long long Document::getLongLongSafeFrom(const std::string& key, long long def) c
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getLongLongSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1169,7 +1192,7 @@ float Document::getFloatSafeFrom(const std::string& key, float def) const noexce
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getFloatSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1180,7 +1203,7 @@ double Document::getDoubleSafeFrom(const std::string& key, double def) const noe
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getDoubleSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1191,7 +1214,7 @@ std::string Document::getStringSafeFrom(const std::string& key, const std::strin
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getStringSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1202,7 +1225,7 @@ bool Document::getBooleanSafeFrom(const std::string& key, bool def) const noexce
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getBooleanSafe(def);
-    }
+            }
     return def;
 }
 
@@ -1213,7 +1236,7 @@ Object& Document::getObjectSafeFrom(const std::string& key, const Object& def) c
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getObjectSafe(def);
-    }
+            }
     return const_cast<Object&>(def);
 }
 
@@ -1224,7 +1247,7 @@ Array& Document::getArraySafeFrom(const std::string& key, const Array& def) cons
         const auto& it = _object.find(key);
         if (it != _object.end())
             return it->second->getArraySafe(def);
-    }
+            }
     return const_cast<Array&>(def);
 }
 
@@ -1271,7 +1294,9 @@ std::string Document::removeTraillingZero(long double n) const noexcept
     std::string ret(buffer.str());
     ret.erase(ret.find_last_not_of('0')+1, std::string::npos);
     if (ret.back() == '.')
+    {
         ret.pop_back();
+    }
     return ret;
 }
 
@@ -1373,7 +1398,7 @@ void Document::pushBackArray(const long long val) noexcept
                 return;
             }
         }
-        
+
         auto newValue = std::make_shared<Document>();
         newValue->setNumber(val);
         _array.emplace_back(std::move(newValue));
@@ -1553,7 +1578,7 @@ Document& Document::operator =(const long val)
     setNumber(val);
     return *this;
 }
-    
+
 Document& Document::operator =(const long long val)
 {
     setNumber(val);
@@ -1619,7 +1644,7 @@ bool Document::operator ==(const long val) const
         ret = true;
     return ret;
 }
-    
+
 bool Document::operator ==(const long long val) const
 {
     bool ret(false);
@@ -1823,7 +1848,7 @@ std::string Document::serialize() const
                         c.doc = it->second.get();
 
                         it++;
-                        stack.push(std::make_unique<SerializeContext>(std::move(current)));
+                        stack.emplace(std::make_unique<SerializeContext>(std::move(current)));
                         current = std::move(c);
                         breakLoop = true;
                         break;
@@ -1905,7 +1930,7 @@ std::string Document::serialize() const
                         c.doc = (*it).get();
 
                         it++;
-                        stack.push(std::make_unique<SerializeContext>(std::move(current)));
+                        stack.emplace(std::make_unique<SerializeContext>(std::move(current)));
                         current = std::move(c);
                         breakLoop = true;
                         break;
@@ -1981,7 +2006,7 @@ void Document::deserialize(const std::string& data, Encoding enc)
     deserialize(errorCtx);
 }
 
-void Document::deserialize(const std::string& data, const Kind def, Encoding enc) noexcept
+void Document::deserialize(const std::string& data, const Document& def, Encoding enc) noexcept
 {
     assert(def == Kind::ARRAY || def == Kind::OBJECT);
     try
@@ -1990,23 +2015,7 @@ void Document::deserialize(const std::string& data, const Kind def, Encoding enc
     }
     catch(...)
     {
-        clean();
-        switch (def)
-        {
-            case Kind::ARRAY:
-                new(&_array) std::vector<std::shared_ptr<Document>>();
-                break;
-            case Kind::OBJECT:
-                new(&_object) std::unordered_map<std::string, std::shared_ptr<Document>>();
-                break;
-            case Kind::UNKNOWN:
-            case Kind::NUMBER:
-            case Kind::NUMBER_FRAC:
-            case Kind::VOID:
-            case Kind::BOOLEAN:
-            case Kind::STRING:
-                break;
-        }
+        *this = def;
     }
 }
 
@@ -2018,11 +2027,11 @@ void Document::deserializeFromPath(const std::string& path, Encoding enc)
     errorCtx.stream = &is;
     errorCtx.enc = enc;
     errorCtx.filename = path;
-    
+
     deserialize(errorCtx);
 }
 
-void Document::deserializeFromPath(const std::string& path, const Kind def, Encoding enc) noexcept
+void Document::deserializeFromPath(const std::string& path, const Document& def, Encoding enc) noexcept
 {
     try
     {
@@ -2030,25 +2039,7 @@ void Document::deserializeFromPath(const std::string& path, const Kind def, Enco
     }
     catch(...)
     {
-        clean();
-        switch (def)
-        {
-            case Kind::ARRAY:
-                new(&_array) std::vector<std::shared_ptr<Document>>();
-                break;
-            case Kind::OBJECT:
-                new(&_object) std::unordered_map<std::string, std::shared_ptr<Document>>();
-                break;
-            case Kind::STRING:
-                new(&_s) std::string();
-                break;
-            case Kind::UNKNOWN:
-            case Kind::NUMBER:
-            case Kind::NUMBER_FRAC:
-            case Kind::VOID:
-            case Kind::BOOLEAN:
-                break;
-        }
+        *this = def;
     }
 }
 
@@ -2071,7 +2062,7 @@ bool Document::operator !=(const long b) const
 {
     return !(*this == b);
 }
-    
+
 bool Document::operator !=(const long long b) const
 {
     return !(*this == b);
@@ -2166,6 +2157,80 @@ std::unordered_map<std::string, std::shared_ptr<Document>>::const_iterator Docum
         throw BadValue();
 }
 
+ParseContext* Document::findValueKind(std::uint32_t c, std::stack<std::unique_ptr<ParseContext>>& stack, ParseStringContext& stringCtx, OStringStream& buffer, ParseErrorContext& errorCtx)
+{
+    ParseContext* ctx = stack.top().get();
+    if (!isInsignificantWhitespace(c))
+    {
+        switch (c)
+        {
+            case '{':
+            {
+                auto context = std::make_unique<ParseContext>(ParseContextValue::OBJECT);
+                context->objCtx.state = ParseObjectContext::State::START;
+                ctx = context.get();
+                stack.emplace(std::move(context));
+                break;
+            }
+            case '[':
+            {
+                auto context = std::make_unique<ParseContext>(ParseContextValue::ARRAY);
+                context->arrCtx.state = ParseArrayContext::State::START;
+                ctx = context.get();
+                stack.emplace(std::move(context));
+                break;
+            }
+            case '"':
+                stringCtx.reset();
+                ctx->setType(ParseContextValue::STRING);
+                break;
+            case '-':
+                ctx->setType(ParseContextValue::NUMBER);
+                ctx->setNumberContext(ParseNumberContext::SIGN);
+                buffer << '-';
+                break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                ctx->setType(ParseContextValue::NUMBER);
+                ctx->setNumberContext(ParseNumberContext::DIGIT);
+                buffer << static_cast<char>(c);
+                break;
+            case 'n':
+                ctx->setType(ParseContextValue::VOID);
+                buffer << 'n';
+                break;
+            case 'f':
+            case 't':
+                ctx->setType(ParseContextValue::BOOLEAN);
+                buffer << static_cast<char>(c);
+                break;
+            case ']':
+                if (ctx->type == ParseContextValue::ARRAY)
+                    ctx->arrCtx.state = ParseArrayContext::State::END;
+                else
+                    throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
+                break;
+            case '}':
+                if (ctx->type == ParseContextValue::OBJECT)
+                    ctx->objCtx.state = ParseObjectContext::State::END;
+                else
+                    throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
+                break;
+            default:
+                throw InvalidCharacter("Invalid character to start a new value.", &errorCtx);
+        }
+    }
+    return ctx;
+}
+
 void Document::deserialize(ParseErrorContext& errorCtx)
 {
     // Cleanup the memory if you are using the same document multiple json data.
@@ -2180,58 +2245,34 @@ void Document::deserialize(ParseErrorContext& errorCtx)
         std::uint32_t previousChar = 0; // Required to detect new line and check cooherence in char flow
         std::uint32_t c = 0; // current code point /!\ Real value no UTF-X
 
-        OStringStream buffer("", std::ios::ate); // Buffer to extract or convert string to the right format
+        OStringStream buffer("", std::ios::ate); // Buffer to extract string or convert string to the right numerical value
 
         // Context required to keep track of elements during the parsing
-        ParseContext ctx;
         std::stack<std::unique_ptr<ParseContext>> stack; // Required for nested JSON Document or Array
+        auto rootCtx = std::make_unique<ParseContext>(ParseContextValue::UNKNOWN);
+        ParseContext* ctx = rootCtx.get();
+        stack.emplace(std::move(rootCtx));
         ParseStringContext stringCtx;
-        ParseContext::StateNumber stateNumber = ParseContext::StateNumber::DIGIT;
 
         for (c = nextChar(errorCtx.stream, &errorCtx, errorCtx.enc);!errorCtx.stream->eof() && errorCtx.stream->good();c = nextChar(errorCtx.stream, &errorCtx, errorCtx.enc))
         {
             errorCtx.column++;
 
-            switch(ctx.state)
+            switch(ctx->getType())
             {
-                case ParseContext::State::UNKNOWN: // Looking for hints about the json
+                case ParseContextValue::UNKNOWN: // Looking for hints about the json
                 {
-                    if (!isInsignificantWhitespace(c)) // it can only be { or [
-                    {
-                        Document* doc = this;
-                        if (ctx.doc._type != Kind::UNKNOWN)
-                            doc = &ctx.doc;
-                        switch (c)
-                        {
-                            case '{':
-                            {
-                                ctx.state = ParseContext::State::OBJECT_START;
-                                doc->_type = Kind::OBJECT;
-                                new(&doc->_object) std::unordered_map<std::string, std::shared_ptr<Document>>();
-                                break;
-                            }
-                            case '[':
-                            {
-                                ctx.state = ParseContext::State::ARRAY_START;
-                                doc->_type = Kind::ARRAY;
-                                new(&doc->_array) std::vector<std::shared_ptr<Document>>();
-                                break;
-                            }
-                            default:
-                                throw InvalidCharacter("JSON payload should an object or array", &errorCtx);
-                        }
-                    }
+                    ctx = findValueKind(c, stack, stringCtx, buffer, errorCtx);
                     break;
                 }
-                case ParseContext::State::OBJECT_START:
-                case ParseContext::State::ARRAY_START:
+                case ParseContextValue::OBJECT:
                 {
                     // If it's an Object we need it's key first
-                    if (ctx.state == ParseContext::State::OBJECT_START && (ctx.keyState != ParseContext::StateKey::KEY_VALID))
+                    if (ctx->objCtx.keyState != ParseObjectContext::StateKey::VALID)
                     {
-                        switch (ctx.keyState)
+                        switch (ctx->objCtx.keyState)
                         {
-                            case ParseContext::StateKey::UNKNOWN:
+                            case ParseObjectContext::StateKey::UNKNOWN:
                             {
                                 if (!isInsignificantWhitespace(c)) // So it can only be \" or the
                                 {
@@ -2239,10 +2280,10 @@ void Document::deserialize(ParseErrorContext& errorCtx)
                                     {
                                         case '\"':
                                             stringCtx.reset();
-                                            ctx.keyState = ParseContext::StateKey::KEY_START;
+                                            ctx->objCtx.keyState = ParseObjectContext::StateKey::START;
                                             break;
                                         case '}':
-                                            ctx.state = ParseContext::State::OBJECT_END;
+                                            ctx->objCtx.state = ParseObjectContext::State::END;
                                             break;
                                         default:
                                             throw InvalidCharacter("Expect double quote(\") to start a new key or curly bracket(}) to end the object.", &errorCtx);
@@ -2250,14 +2291,14 @@ void Document::deserialize(ParseErrorContext& errorCtx)
                                 }
                                 break;
                             }
-                            case ParseContext::StateKey::KEY_START:
+                            case ParseObjectContext::StateKey::START:
                             {
                                 if (stringCtx.count == 0 && c == '"') // End of the key string
                                 {
                                     if (stringCtx.surrogate > 0) // Surrogate UTF-16 can't be truncated
                                         throw InvalidCharacter("Unexpected end of string in the middle of UTF-16 surrogate character.", &errorCtx);
-                                    ctx.key = buffer.str(); // We extract the key from the buffer.
-                                    ctx.keyState = ParseContext::StateKey::KEY_END;
+                                    ctx->objCtx.key = buffer.str(); // We extract the key from the buffer.
+                                    ctx->objCtx.keyState = ParseObjectContext::StateKey::END;
                                     // Reset the buffer for next value
                                     buffer.clear();
                                     buffer.seekp(std::ios::beg);
@@ -2266,352 +2307,317 @@ void Document::deserialize(ParseErrorContext& errorCtx)
                                     parseString(previousChar, c, stringCtx, buffer, errorCtx);
                                 break;
                             }
-                            case ParseContext::StateKey::KEY_END:
+                            case ParseObjectContext::StateKey::END:
                                 if (!isInsignificantWhitespace(c))
                                 {
                                     if (c == ':')
                                     {
-                                        ++ctx.colonCount;
-                                        ctx.keyState = ParseContext::StateKey::KEY_VALID;
+                                        ++ctx->objCtx.colonCount;
+                                        ctx->objCtx.keyState = ParseObjectContext::StateKey::VALID;
                                     }
                                     else
                                         throw InvalidCharacter("Expect colon(:) before the value.", &errorCtx);
                                 }
                                 break;
-                            case ParseContext::StateKey::KEY_VALID: // You should never be able to reach this code.
+                            case ParseObjectContext::StateKey::VALID: // You should never be able to reach this code.
                                 break;
                         }
                     }
-                    else // Extraction of the value
+                    else if (ctx->objCtx.state == ParseObjectContext::State::END)
                     {
-                        switch (ctx.valueState)
+                        if (!isInsignificantWhitespace(c))
+                            throw InvalidCharacter("Invalid character after the end of object.", &errorCtx);
+                    }
+                    break;
+                }
+                case ParseContextValue::ARRAY:
+                {
+                    if (ctx->arrCtx.state == ParseArrayContext::State::END)
+                    {
+                        if (!isInsignificantWhitespace(c))
+                            throw InvalidCharacter("Invalid character after the end of an array.", &errorCtx);
+                    }
+                    break;
+                }
+                case ParseContextValue::NEXT:
+                {
+                    if (!isInsignificantWhitespace(c))
+                    {
+                        switch (c)
                         {
-                            case ParseContext::StateValue::UNKNOWN: // Looking for hints about the value
-                                if (!isInsignificantWhitespace(c)) // So it can only be \"-, [0-9], n for null, f for false, t for true, {, [, } or ]
+                            case ',':
+                                if (ctx->type == ParseContextValue::OBJECT)
                                 {
-                                    switch (c)
-                                    {
-                                        case '"':
-                                            stringCtx.reset();
-                                            ctx.valueState = ParseContext::StateValue::STRING;
-                                            break;
-                                        case '-':
-                                            ctx.valueState = ParseContext::StateValue::NUMBER;
-                                            stateNumber = ParseContext::StateNumber::SIGN;
-                                            buffer << '-';
-                                            break;
-                                        case '0':
-                                        case '1':
-                                        case '2':
-                                        case '3':
-                                        case '4':
-                                        case '5':
-                                        case '6':
-                                        case '7':
-                                        case '8':
-                                        case '9':
-                                            ctx.valueState = ParseContext::StateValue::NUMBER;
-                                            stateNumber = ParseContext::StateNumber::DIGIT;
-                                            buffer << static_cast<char>(c);
-                                            break;
-                                        case 'n':
-                                            ctx.valueState = ParseContext::StateValue::VOID;
-                                            buffer << 'n';
-                                            break;
-                                        case 'f':
-                                        case 't':
-                                            ctx.valueState = ParseContext::StateValue::BOOLEAN;
-                                            buffer << static_cast<char>(c);
-                                            break;
-                                        case '{':
-                                        {
-                                            stack.push(std::make_unique<ParseContext>(std::move(ctx)));
-                                            ctx = ParseContext();
-                                            ctx.state = ParseContext::State::OBJECT_START;
-                                            ctx.doc = Object(Kind::OBJECT);
-                                            break;
-                                        }
-                                        case '[':
-                                        {
-                                            stack.push(std::make_unique<ParseContext>(std::move(ctx)));
-                                            ctx = ParseContext();
-                                            ctx.state = ParseContext::State::ARRAY_START;
-                                            ctx.doc = Array(Kind::ARRAY);
-                                            break;
-                                        }
-                                        case ']':
-                                            if (ctx.state == ParseContext::State::ARRAY_START)
-                                                ctx.state = ParseContext::State::ARRAY_END;
-                                            else
-                                                throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
-                                            break;
-                                        case '}':
-                                            if (ctx.state == ParseContext::State::OBJECT_START)
-                                                ctx.state = ParseContext::State::OBJECT_END;
-                                            else
-                                                throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
-                                            break;
-                                        default:
-                                            throw InvalidCharacter("Invalid character to start a new value.", &errorCtx);
-                                    }
+                                    ++ctx->objCtx.commaCount;
+                                    if (ctx->objCtx.state == ParseObjectContext::State::START)
+                                        ctx->objCtx.keyState = ParseObjectContext::StateKey::UNKNOWN;
+                                    ctx->setType(ParseContextValue::UNKNOWN);
+                                    checkCommaCount(ctx, errorCtx);
                                 }
-                                break;
-                            case ParseContext::StateValue::NEXT:
-                                if (!isInsignificantWhitespace(c))
+                                else if (ctx->type == ParseContextValue::ARRAY)
                                 {
-                                    switch (c)
-                                    {
-                                        case ',':
-                                            ++ctx.commaCount;
-                                            checkCommaCount(ctx, errorCtx);
-                                            if (ctx.state == ParseContext::State::OBJECT_START)
-                                                ctx.keyState = ParseContext::StateKey::UNKNOWN;
-                                            ctx.valueState = ParseContext::StateValue::UNKNOWN;
-                                            break;
-                                        case ']':
-                                            if (ctx.state == ParseContext::State::ARRAY_START)
-                                                ctx.state = ParseContext::State::ARRAY_END;
-                                            else
-                                                throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
-                                            break;
-                                        case '}':
-                                            if (ctx.state == ParseContext::State::OBJECT_START)
-                                                ctx.state = ParseContext::State::OBJECT_END;
-                                            else
-                                                throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
-                                            break;
-                                        default:
-                                            throw InvalidCharacter("Invalid character to separate values.", &errorCtx);
-                                    }
-                                }
-                                break;
-                            case ParseContext::StateValue::STRING:
-                            {
-                                checkValidKey(ctx, errorCtx);
-                                if (stringCtx.count == 0 && c == '"')
-                                {
-                                    if (stringCtx.surrogate > 0)
-                                        throw InvalidCharacter("Unexpected end of string in the middle of UTF-16 surrogate character.", &errorCtx);
-                                    Document val;
-                                    val.setString(buffer.str());
-                                    addValue(ctx, std::move(val), buffer, errorCtx);
-                                    ctx.valueState = ParseContext::StateValue::NEXT;
+                                    ++ctx->arrCtx.commaCount;
+                                    checkCommaCount(ctx, errorCtx);
+                                    ctx->setType(ParseContextValue::UNKNOWN);
                                 }
                                 else
                                 {
-                                    parseString(previousChar, c, stringCtx, buffer, errorCtx);
+                                    throw InvalidCharacter("Only object or array can have a list of value(s).", &errorCtx);
                                 }
                                 break;
-                            }
-                            case ParseContext::StateValue::NUMBER:
-                            {
-                                checkValidKey(ctx, errorCtx);
-                                switch(previousChar)
-                                {
-                                    case '+':
-                                    case '-':
-                                    case '.':
-                                        if (c < '0' || c > '9')
-                                            throw InvalidCharacter("Expect a number([0-9]) after the signs: plus(+), minus(-) and dot(.).", &errorCtx);
-                                        break;
-                                    case 'e':
-                                    case 'E':
-                                        if (c != '+' && c != '-' && (c < '0' || c > '9'))
-                                            throw InvalidCharacter("Expect a number([0-9]) or a sign either plus(+) or minus(-) after exponential(e or E).", &errorCtx);
-                                        break;
-                                    case '0':
-                                        if (((buffer.tellp() == 1 && stateNumber == ParseContext::StateNumber::DIGIT) || (buffer.tellp() == 2 && stateNumber == ParseContext::StateNumber::SIGN)) && c != '.' && c != 'e' && c != 'E' && c != ',' && c != '}' && c != ']' && !isInsignificantWhitespace(c))
-                                            throw InvalidCharacter("Expect dot(.) or exponential(e or E) or comma(,) after zero(0).", &errorCtx);
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                switch(c)
-                                {
-                                    case '0':
-                                    case '1':
-                                    case '2':
-                                    case '3':
-                                    case '4':
-                                    case '5':
-                                    case '6':
-                                    case '7':
-                                    case '8':
-                                    case '9':
-                                        buffer << static_cast<char>(c);
-                                        break;
-                                    case '+':
-                                    case '-':
-                                        if ((stateNumber & ParseContext::StateNumber::SIGN) == ParseContext::StateNumber::SIGN)
-                                            throw InvalidCharacter("Unexpected minus(-) or plus(+).", &errorCtx);
-                                        if ((buffer.tellp() == std::ios::beg && c == '-') || previousChar == 'e' || previousChar == 'E')
-                                        {
-                                            stateNumber |= ParseContext::StateNumber::SIGN;
-                                            buffer << static_cast<char>(c);
-                                        }
-                                        else
-                                            throw InvalidCharacter("Expect minus(-) at the begining of the number or after exponential(e or E).", &errorCtx);
-                                        break;
-                                    case '.':
-                                        if ((stateNumber & ParseContext::StateNumber::FRAC) == ParseContext::StateNumber::FRAC)
-                                            throw InvalidCharacter("Unexpected dot(.).", &errorCtx);
-                                        if ((stateNumber & ParseContext::StateNumber::EXP) == ParseContext::StateNumber::EXP)
-                                            throw InvalidCharacter("Unexpected dot(.).", &errorCtx);
-                                        stateNumber |= ParseContext::StateNumber::FRAC;
-                                        buffer << '.';
-                                        break;
-                                    case 'e':
-                                    case 'E':
-                                        if ((stateNumber & ParseContext::StateNumber::EXP) == ParseContext::StateNumber::EXP)
-                                            throw InvalidCharacter("Unexpected exponential(e or E)", &errorCtx);
-                                        stateNumber |= ParseContext::StateNumber::EXP;
-                                        stateNumber &= ~ParseContext::StateNumber::SIGN; // Rest Flag to accept one sign + or -
-                                        buffer << static_cast<char>(c);
-                                        break;
-                                    case '}': // Final Element of the Object
-                                    {
-                                        if (ctx.state == ParseContext::State::OBJECT_START)
-                                        {
-                                            Document val;
-                                            val.setNumber(std::stold(buffer.str()));
-                                            addValue(ctx, std::move(val), buffer, errorCtx);
-                                            ctx.state = ParseContext::State::OBJECT_END;
-                                            ctx.valueState = ParseContext::StateValue::UNKNOWN;
-                                        }
-                                        else
-                                            throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
-                                        break;
-                                    }
-                                    case ']': // Final Element of the Array
-                                    {
-                                        if (ctx.state == ParseContext::State::ARRAY_START)
-                                        {
-                                            Document val;
-                                            val.setNumber(std::stold(buffer.str()));
-                                            addValue(ctx, std::move(val), buffer, errorCtx);
-                                            ctx.state = ParseContext::State::ARRAY_END;
-                                            ctx.valueState = ParseContext::StateValue::UNKNOWN;
-                                        }
-                                        else
-                                            throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
-                                        break;
-                                    }
-                                    case ' ':
-                                    case '\t':
-                                    case '\n':
-                                    case '\r':
-                                    {
-                                        Document val;
-                                        val.setNumber(std::stold(buffer.str()));
-                                        addValue(ctx, std::move(val), buffer, errorCtx);
-                                        ctx.valueState = ParseContext::StateValue::NEXT;
-                                        break;
-                                    }
-                                    case ',':
-                                    {
-                                        Document val;
-                                        val.setNumber(std::stold(buffer.str()));
-                                        addValue(ctx, std::move(val), buffer, errorCtx);
-                                        ++ctx.commaCount;
-                                        checkCommaCount(ctx, errorCtx);
-                                        if (ctx.state == ParseContext::State::OBJECT_START && ctx.keyState == ParseContext::StateKey::KEY_VALID)
-                                            ctx.keyState = ParseContext::StateKey::UNKNOWN;
-                                        ctx.valueState = ParseContext::StateValue::UNKNOWN;
-                                        break;
-                                    }
-                                    default:
-                                        throw InvalidCharacter("Invalid character to describe a number value.", &errorCtx);
-                                }
-                                break;
-                            }
-                            case ParseContext::StateValue::BOOLEAN:
-                            {
-                                checkValidKey(ctx, errorCtx);
-                                if ((previousChar == 't' && c == 'r') || (previousChar == 'r' && c == 'u') || (previousChar == 'f' && c == 'a') || (previousChar == 'a' && c == 'l') || (previousChar == 'l' && c == 's'))
-                                {
-                                }
-                                else if (previousChar == 'u' && c == 'e')
-                                {
-                                    Document val;
-                                    val.setBoolean(true);
-                                    addValue(ctx, std::move(val), buffer, errorCtx);
-                                    ctx.valueState = ParseContext::StateValue::NEXT;
-                                }
-                                else if (previousChar == 's' && c == 'e')
-                                {
-                                    Document val;
-                                    val.setBoolean(false);
-                                    addValue(ctx, std::move(val), buffer, errorCtx);
-                                    ctx.valueState = ParseContext::StateValue::NEXT;
-                                }
+                            case ']':
+                                if (ctx->type == ParseContextValue::ARRAY && ctx->arrCtx.state == ParseArrayContext::State::START)
+                                    ctx->arrCtx.state = ParseArrayContext::State::END;
                                 else
-                                    throw InvalidCharacter("Invalid character to describe a boolean value.", &errorCtx);
+                                    throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
                                 break;
-                            }
-                            case ParseContext::StateValue::VOID:
-                            {
-                                checkValidKey(ctx, errorCtx);
-                                if ((previousChar == 'n' && c == 'u') || (previousChar == 'u' && c == 'l'))
-                                {
-                                }
-                                else if (previousChar == 'l' && c == 'l')
-                                {
-                                    Document val;
-                                    val.setNull();
-                                    addValue(ctx, std::move(val), buffer, errorCtx);
-                                    ctx.valueState = ParseContext::StateValue::NEXT;
-                                }
+                            case '}':
+                                if (ctx->type == ParseContextValue::OBJECT && ctx->objCtx.state == ParseObjectContext::State::START)
+                                    ctx->objCtx.state = ParseObjectContext::State::END;
                                 else
-                                    throw InvalidCharacter("Invalid character to describe a null value.", &errorCtx);
+                                    throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
                                 break;
-                            }
+                            default:
+                                throw InvalidCharacter("Invalid character to separate values.", &errorCtx);
                         }
                     }
                     break;
                 }
-                case ParseContext::State::OBJECT_END:
-                case ParseContext::State::ARRAY_END:
-                    if (!isInsignificantWhitespace(c))
-                        throw InvalidCharacter("Invalid character after the end of object or array.", &errorCtx);
+                case ParseContextValue::STRING:
+                {
+                    checkValidKey(ctx, errorCtx);
+                    if (stringCtx.count == 0 && c == '"')
+                    {
+                        if (stringCtx.surrogate > 0)
+                            throw InvalidCharacter("Unexpected end of string in the middle of UTF-16 surrogate character.", &errorCtx);
+                        Document val;
+                        val.setString(buffer.str());
+                        addValue(ctx, std::move(val), buffer, errorCtx);
+                        ctx->setType(ParseContextValue::NEXT);
+                    }
+                    else
+                    {
+                        parseString(previousChar, c, stringCtx, buffer, errorCtx);
+                    }
                     break;
+                }
+                case ParseContextValue::NUMBER:
+                {
+                    checkValidKey(ctx, errorCtx);
+                    switch(previousChar)
+                    {
+                        case '+':
+                        case '-':
+                        case '.':
+                            if (c < '0' || c > '9')
+                                throw InvalidCharacter("Expect a number([0-9]) after the signs: plus(+), minus(-) and dot(.).", &errorCtx);
+                            break;
+                        case 'e':
+                        case 'E':
+                            if (c != '+' && c != '-' && (c < '0' || c > '9'))
+                                throw InvalidCharacter("Expect a number([0-9]) or a sign either plus(+) or minus(-) after exponential(e or E).", &errorCtx);
+                            break;
+                        case '0':
+                            if (((buffer.tellp() == 1 && ctx->getNumberContext() == ParseNumberContext::DIGIT) || (buffer.tellp() == 2 && ctx->getNumberContext() == ParseNumberContext::SIGN)) && c != '.' && c != 'e' && c != 'E' && c != ',' && c != '}' && c != ']' && !isInsignificantWhitespace(c))
+                                throw InvalidCharacter("Expect dot(.) or exponential(e or E) or comma(,) after zero(0).", &errorCtx);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    switch(c)
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            buffer << static_cast<char>(c);
+                            break;
+                        case '+':
+                        case '-':
+                            if ((ctx->getNumberContext() & ParseNumberContext::SIGN) == ParseNumberContext::SIGN)
+                                throw InvalidCharacter("Unexpected minus(-) or plus(+).", &errorCtx);
+                            if ((buffer.tellp() == std::ios::beg && c == '-') || previousChar == 'e' || previousChar == 'E')
+                            {
+                                ctx->setNumberContext(ctx->getNumberContext() | ParseNumberContext::SIGN);
+                                buffer << static_cast<char>(c);
+                            }
+                            else
+                                throw InvalidCharacter("Expect minus(-) at the begining of the number or after exponential(e or E).", &errorCtx);
+                            break;
+                        case '.':
+                            if ((ctx->getNumberContext() & ParseNumberContext::FRAC) == ParseNumberContext::FRAC)
+                                throw InvalidCharacter("Unexpected dot(.).", &errorCtx);
+                            if ((ctx->getNumberContext() & ParseNumberContext::EXP) == ParseNumberContext::EXP)
+                                throw InvalidCharacter("Unexpected dot(.).", &errorCtx);
+                            ctx->setNumberContext(ctx->getNumberContext() | ParseNumberContext::FRAC);
+                            buffer << '.';
+                            break;
+                        case 'e':
+                        case 'E':
+                            if ((ctx->getNumberContext() & ParseNumberContext::EXP) == ParseNumberContext::EXP)
+                                throw InvalidCharacter("Unexpected exponential(e or E)", &errorCtx);
+                            ctx->setNumberContext(ctx->getNumberContext() | ParseNumberContext::EXP);
+                            ctx->setNumberContext(ctx->getNumberContext() & ~ParseNumberContext::SIGN); // Rest Flag to accept one sign + or -
+                            buffer << static_cast<char>(c);
+                            break;
+                        case '}': // Final Element of the Object
+                        {
+                            if (ctx->type == ParseContextValue::OBJECT && ctx->objCtx.state == ParseObjectContext::State::START)
+                            {
+                                Document val;
+                                val.setNumber(std::stold(buffer.str()));
+                                addValue(ctx, std::move(val), buffer, errorCtx);
+                                ctx->objCtx.state = ParseObjectContext::State::END;
+                                ctx->setType(ParseContextValue::UNKNOWN);
+                            }
+                            else
+                                throw InvalidCharacter("Expect square bracket(]) to end an array.", &errorCtx);
+                            break;
+                        }
+                        case ']': // Final Element of the Array
+                        {
+                            if (ctx->type == ParseContextValue::ARRAY && ctx->arrCtx.state == ParseArrayContext::State::START)
+                            {
+                                Document val;
+                                val.setNumber(std::stold(buffer.str()));
+                                addValue(ctx, std::move(val), buffer, errorCtx);
+                                ctx->arrCtx.state = ParseArrayContext::State::END;
+                                ctx->setType(ParseContextValue::UNKNOWN);
+                            }
+                            else
+                                throw InvalidCharacter("Expect curly bracket(}) to end an object.", &errorCtx);
+                            break;
+                        }
+                        case ' ':
+                        case '\t':
+                        case '\n':
+                        case '\r':
+                        {
+                            Document val;
+                            val.setNumber(std::stold(buffer.str()));
+                            addValue(ctx, std::move(val), buffer, errorCtx);
+                            ctx->setType(ParseContextValue::NEXT);
+                            break;
+                        }
+                        case ',':
+                        {
+                            Document val;
+                            val.setNumber(std::stold(buffer.str()));
+                            addValue(ctx, std::move(val), buffer, errorCtx);
+
+                            if (ctx->type == ParseContextValue::OBJECT)
+                            {
+                                ++ctx->objCtx.commaCount;
+                                if (ctx->objCtx.state == ParseObjectContext::State::START && ctx->objCtx.keyState == ParseObjectContext::StateKey::VALID)
+                                    ctx->objCtx.keyState = ParseObjectContext::StateKey::UNKNOWN;
+                                ctx->setType(ParseContextValue::UNKNOWN);
+                                checkCommaCount(ctx, errorCtx);
+                            }
+                            else if (ctx->type == ParseContextValue::ARRAY)
+                            {
+                                ++ctx->arrCtx.commaCount;
+                                checkCommaCount(ctx, errorCtx);
+                                ctx->setType(ParseContextValue::UNKNOWN);
+                            }
+                            else
+                            {
+                                throw InvalidCharacter("Only object or array can have a list of value(s).", &errorCtx);
+                            }
+                            break;
+                        }
+                        default:
+                            throw InvalidCharacter("Invalid character to describe a number value.", &errorCtx);
+                    }
+                    break;
+                }
+                case ParseContextValue::BOOLEAN:
+                {
+                    checkValidKey(ctx, errorCtx);
+                    if ((previousChar == 't' && c == 'r') || (previousChar == 'r' && c == 'u') || (previousChar == 'f' && c == 'a') || (previousChar == 'a' && c == 'l') || (previousChar == 'l' && c == 's'))
+                    {
+                    }
+                    else if (previousChar == 'u' && c == 'e')
+                    {
+                        Document val;
+                        val.setBoolean(true);
+                        addValue(ctx, std::move(val), buffer, errorCtx);
+                        ctx->setType(ParseContextValue::NEXT);
+                    }
+                    else if (previousChar == 's' && c == 'e')
+                    {
+                        Document val;
+                        val.setBoolean(false);
+                        addValue(ctx, std::move(val), buffer, errorCtx);
+                        ctx->setType(ParseContextValue::NEXT);
+                    }
+                    else
+                        throw InvalidCharacter("Invalid character to describe a boolean value.", &errorCtx);
+                    break;
+                }
+                case ParseContextValue::VOID:
+                {
+                    checkValidKey(ctx, errorCtx);
+                    if ((previousChar == 'n' && c == 'u') || (previousChar == 'u' && c == 'l'))
+                    {
+                    }
+                    else if (previousChar == 'l' && c == 'l')
+                    {
+                        Document val;
+                        val.setNull();
+                        addValue(ctx, std::move(val), buffer, errorCtx);
+                        ctx->setType(ParseContextValue::NEXT);
+                    }
+                    else
+                        throw InvalidCharacter("Invalid character to describe a null value.", &errorCtx);
+                    break;
+                }
             }
 
-            switch(ctx.state)
+            switch(ctx->type)
             {
-                case ParseContext::State::OBJECT_END:
+                case ParseContextValue::OBJECT:
                 {
-                    checkCommaCount(ctx, errorCtx);
-                    checkColonCount(ctx, errorCtx);
-                    if (stack.size() > 0)
+                    if (ctx->objCtx.state == ParseObjectContext::State::END)
                     {
-                        Document val;
-                        val.setObject(std::move(ctx.doc));
-                        ctx = std::move(*stack.top());
+                        checkCommaCount(ctx, errorCtx);
+                        checkColonCount(ctx, errorCtx);
+
+                        Document val = std::move(ctx->objCtx.doc);
                         stack.pop();
+                        ctx = stack.top().get();
                         addValue(ctx, std::move(val), buffer, errorCtx);
-                        ctx.valueState = ParseContext::StateValue::NEXT;
+                        ctx->setType(ParseContextValue::NEXT);
                     }
                     break;
                 }
-                case ParseContext::State::ARRAY_END:
+                case ParseContextValue::ARRAY:
                 {
-                    checkCommaCount(ctx, errorCtx);
-                    checkColonCount(ctx, errorCtx);
-                    if (stack.size() > 0)
+                    if (ctx->objCtx.state == ParseObjectContext::State::END)
                     {
-                        Document val;
-                        val.setArray(std::move(ctx.doc));
-                        ctx = std::move(*stack.top());
+                        checkCommaCount(ctx, errorCtx);
+                        checkColonCount(ctx, errorCtx);
+
+                        Document val = std::move(ctx->arrCtx.doc);
                         stack.pop();
+                        ctx = stack.top().get();
                         addValue(ctx, std::move(val), buffer, errorCtx);
-                        ctx.valueState = ParseContext::StateValue::NEXT;
+                        ctx->setType(ParseContextValue::NEXT);
                     }
                     break;
                 }
-                case ParseContext::State::UNKNOWN:
-                case ParseContext::State::ARRAY_START:
-                case ParseContext::State::OBJECT_START:
+                case ParseContextValue::UNKNOWN:
+                case ParseContextValue::NUMBER:
+                case ParseContextValue::STRING:
+                case ParseContextValue::BOOLEAN:
+                case ParseContextValue::NEXT:
+                case ParseContextValue::VOID:
                     break;
             }
 
@@ -2622,60 +2628,114 @@ void Document::deserialize(ParseErrorContext& errorCtx)
             }
 
             previousChar = c;
+
         }
 
-        if (ctx.state == ParseContext::State::OBJECT_START)
-            throw InvalidCharacter("Expect object to be closed.", &errorCtx);
-        if (ctx.state == ParseContext::State::ARRAY_START)
-            throw InvalidCharacter("Expect array to be closed.", &errorCtx);
+        switch (ctx->type)
+        {
+            case ParseContextValue::OBJECT:
+            {
+                if (ctx->objCtx.state == ParseObjectContext::State::START)
+                {
+                    throw InvalidCharacter("Expect object to be closed.", &errorCtx);
+                }
+                break;
+            }
+            case ParseContextValue::ARRAY:
+            {
+                if (ctx->arrCtx.state == ParseArrayContext::State::START)
+                {
+                    throw InvalidCharacter("Expect array to be closed.", &errorCtx);
+                }
+                break;
+            }
+            case ParseContextValue::STRING:
+            {
+                if (stringCtx.surrogate > 0)
+                {
+                    throw InvalidCharacter("String is not ended by double quote(\") in the middle of UTF-16 surrogate character.", &errorCtx);
+                }
+                else
+                {
+                    throw InvalidCharacter("String is not ended by double quote(\").", &errorCtx);
+                }
+            }
+            case ParseContextValue::UNKNOWN:
+            {
+                throw InvalidCharacter("No data", &errorCtx);
+            }
+        }
     }
 }
 
-void Document::addValue(ParseContext& ctx, Document&& val, OStringStream& buffer, const ParseErrorContext& errorCtx)
+void Document::addValue(ParseContext* ctx, Document&& val, OStringStream& buffer, const ParseErrorContext& errorCtx)
 {
-    Document* doc = this;
-    if (ctx.doc._type != Kind::UNKNOWN)
-        doc = &ctx.doc;
-    if (ctx.state == ParseContext::State::OBJECT_START)
+    switch (ctx->type)
     {
-        if (ctx.keyState == ParseContext::StateKey::KEY_VALID)
+        case ParseContextValue::OBJECT:
         {
-            if (doc->_object.find(ctx.key) != doc->_object.end())
-                ctx.duplicatedKeys++;
-            doc->_object[ctx.key] = std::make_shared<Document>(std::move(val));
+            if (ctx->objCtx.state == ParseObjectContext::State::START)
+            {
+                if (ctx->objCtx.keyState == ParseObjectContext::StateKey::VALID)
+                {
+                    if (ctx->objCtx.doc._object.find(ctx->objCtx.key) != ctx->objCtx.doc._object.end())
+                    {
+                        ctx->objCtx.duplicatedKeys++;
+                    }
+                    auto sharedVal = std::make_shared<Document>(std::move(val));
+                    auto ret = ctx->objCtx.doc._object.emplace(ctx->objCtx.key, sharedVal);
+                    if (!ret.second)
+                    {
+                        ret.first->second = sharedVal;
+                    }
+                }
+            }
+            break;
         }
-        else
-            throw InvalidCharacter("Miss a valid key to add a value.", &errorCtx);
+        case ParseContextValue::ARRAY:
+        {
+            if (ctx->arrCtx.state == ParseArrayContext::State::START)
+            {
+                ctx->arrCtx.doc._array.emplace_back(std::make_shared<Document>(std::move(val)));
+            }
+            break;
+        }
+        case ParseContextValue::NUMBER:
+        case ParseContextValue::STRING:
+        case ParseContextValue::BOOLEAN:
+        case ParseContextValue::NEXT:
+        case ParseContextValue::VOID:
+        case ParseContextValue::UNKNOWN:
+            *this = std::move(val);
+            break;
     }
-    else
-        doc->_array.emplace_back(std::make_shared<Document>(std::move(val)));
 
     buffer.clear();
     buffer.seekp(std::ios::beg);
 }
 
-void Document::checkValidKey(const json::ParseContext& ctx, const ParseErrorContext& errorCtx) const
+void Document::checkValidKey(const json::ParseContext* ctx, const ParseErrorContext& errorCtx) const
 {
-    if (ctx.state == ParseContext::State::OBJECT_START && ctx.keyState != ParseContext::StateKey::KEY_VALID)
+    if (ctx->type == ParseContextValue::OBJECT && ctx->objCtx.state == ParseObjectContext::State::START && ctx->objCtx.keyState != ParseObjectContext::StateKey::VALID)
         throw InvalidCharacter("Invalid key.", &errorCtx);
 }
 
-void Document::checkColonCount(const ParseContext& ctx, const ParseErrorContext& errorCtx) const
+void Document::checkColonCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const
 {
-    const Document* doc = this;
-    if (ctx.doc._type != Kind::UNKNOWN)
-        doc = &ctx.doc;
-    if (ctx.state == ParseContext::State::OBJECT_END && ctx.colonCount > 0 && doc->_object.size() != (ctx.colonCount-ctx.duplicatedKeys))
+    if (ctx->type == ParseContextValue::OBJECT && ctx->objCtx.state == ParseObjectContext::State::END && ctx->objCtx.colonCount > 0 && ctx->objCtx.doc._object.size() != (ctx->objCtx.colonCount-ctx->objCtx.duplicatedKeys))
         throw InvalidCharacter("Unexpected number of colons(:) and values.", &errorCtx);
 }
 
-void Document::checkCommaCount(const ParseContext& ctx, const ParseErrorContext& errorCtx) const
+void Document::checkCommaCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const
 {
-    const Document* doc = this;
-    if (ctx.doc._type != Kind::UNKNOWN)
-        doc = &ctx.doc;
-    if (ctx.commaCount > 0 && ((ctx.state == ParseContext::State::ARRAY_END && doc->_array.size() != (ctx.commaCount+1)) || (ctx.state == ParseContext::State::OBJECT_END && doc->_object.size() != (ctx.commaCount-ctx.duplicatedKeys+1))))
-        throw InvalidCharacter("Unexpected number of commas(,) and values.", &errorCtx);
+    if (ctx->type == ParseContextValue::OBJECT && ctx->objCtx.commaCount> 0 && ctx->objCtx.state == ParseObjectContext::State::END && ctx->objCtx.doc._object.size() != ctx->objCtx.commaCount-ctx->objCtx.duplicatedKeys+1)
+    {
+        throw InvalidCharacter("Unexpected number of commas(,) and values in object.", &errorCtx);
+    }
+    else if (ctx->type == ParseContextValue::ARRAY && ctx->arrCtx.commaCount > 0 && ctx->arrCtx.state == ParseArrayContext::State::END && ctx->arrCtx.doc._array.size() != ctx->arrCtx.commaCount+1)
+    {
+        throw InvalidCharacter("Unexpected number of commas(,) and values in array.", &errorCtx);
+    }
 }
 
 std::uint32_t Document::nextChar(std::istream* stream, const ParseErrorContext* errorCtx, Encoding enc) const
@@ -2847,7 +2907,7 @@ void Document::parseString(const std::uint32_t previousChar, const std::uint32_t
             stringCtx.count++;
             if (stringCtx.count == 6)
             {
-                const std::uint16_t escapedNum = static_cast<std::uint16_t>(std::stoul(stringCtx.charString, 0, 16));
+                const std::uint16_t escapedNum = static_cast<std::uint16_t>(std::stoul(stringCtx.charString.data(), 0, 16));
                 if (escapedNum >= 0xD800 && escapedNum <= 0xDFFF)
                 {
                     if (stringCtx.surrogate == 0) // high surrogate (1st 4 hex digits)
@@ -2895,7 +2955,7 @@ bool Document::isControlCharacter(const std::uint32_t c) const noexcept
     bool ret = false;
     if (c<= 0x1F || c == 0x7F || (c >= 0x80 && c <= 0x9F))
         ret = true;
-    
+
     return ret;
 }
 
@@ -2904,7 +2964,7 @@ bool Document::isInsignificantWhitespace(const std::uint32_t c) const noexcept
     bool ret = false;
     if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
         ret = true;
-    
+
     return ret;
 }
 
@@ -2912,7 +2972,7 @@ void Document::writeEscapeCharForJSON(OStringStream& buffer, const std::string& 
 {
     Stringbuf buf(u8, std::ios::in);
     std::istream data(&buf);
-    
+
     for (auto c = nextChar(&data, nullptr, Encoding::UTF8); !data.eof() && data.good(); c = nextChar(&data, nullptr, Encoding::UTF8))
     {
         switch(c)

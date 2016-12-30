@@ -51,7 +51,7 @@
 - (BOOL)fail:(NSString*)json
 {
     NSString* filePath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:json];
-    bool ret = false;
+    BOOL ret = false;
     json::Document doc;
     try {
         doc.deserializeFromPath([filePath UTF8String]);
@@ -955,383 +955,383 @@
 }
 - (void)test_y_array_arraysWithSpaces {
     bool ret = [self fail:@"y_array_arraysWithSpaces.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_empty_string {
     bool ret = [self fail:@"y_array_empty-string.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_empty {
     bool ret = [self fail:@"y_array_empty.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_ending_with_newline {
     bool ret = [self fail:@"y_array_ending_with_newline.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_false {
     bool ret = [self fail:@"y_array_false.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_heterogeneous {
     bool ret = [self fail:@"y_array_heterogeneous.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_null {
     bool ret = [self fail:@"y_array_null.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_with_1_and_newline {
     bool ret = [self fail:@"y_array_with_1_and_newline.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_with_leading_space {
     bool ret = [self fail:@"y_array_with_leading_space.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_with_several_null {
     bool ret = [self fail:@"y_array_with_several_null.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_array_with_trailing_space {
     bool ret = [self fail:@"y_array_with_trailing_space.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_0eplus1 {
     bool ret = [self fail:@"y_number_0e+1.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_0e1 {
     bool ret = [self fail:@"y_number_0e1.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_after_space {
     bool ret = [self fail:@"y_number_after_space.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_double_close_to_zero {
     bool ret = [self fail:@"y_number_double_close_to_zero.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_int_with_exp {
     bool ret = [self fail:@"y_number_int_with_exp.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_minus_zero {
     bool ret = [self fail:@"y_number_minus_zero.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_negative_int {
     bool ret = [self fail:@"y_number_negative_int.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_negative_one {
     bool ret = [self fail:@"y_number_negative_one.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_negative_zero {
     bool ret = [self fail:@"y_number_negative_zero.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_capital_e_neg_exp {
     bool ret = [self fail:@"y_number_real_capital_e_neg_exp.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_capital_e_pos_exp {
     bool ret = [self fail:@"y_number_real_capital_e_pos_exp.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_capital_e {
     bool ret = [self fail:@"y_number_real_capital_e.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_exponent {
     bool ret = [self fail:@"y_number_real_exponent.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_fraction_exponent {
     bool ret = [self fail:@"y_number_real_fraction_exponent.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_neg_exp {
     bool ret = [self fail:@"y_number_real_neg_exp.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_real_pos_exponent {
     bool ret = [self fail:@"y_number_real_pos_exponent.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_simple_int {
     bool ret = [self fail:@"y_number_simple_int.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number_simple_real {
     bool ret = [self fail:@"y_number_simple_real.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_number {
     bool ret = [self fail:@"y_number.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_basic {
     bool ret = [self fail:@"y_object_basic.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_duplicated_key_and_value {
     bool ret = [self fail:@"y_object_duplicated_key_and_value.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_duplicated_key {
     bool ret = [self fail:@"y_object_duplicated_key.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_empty_key {
     bool ret = [self fail:@"y_object_empty_key.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_empty {
     bool ret = [self fail:@"y_object_empty.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_escaped_null_in_key {
     bool ret = [self fail:@"y_object_escaped_null_in_key.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_extreme_numbers {
     bool ret = [self fail:@"y_object_extreme_numbers.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_long_strings {
     bool ret = [self fail:@"y_object_long_strings.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_simple {
     bool ret = [self fail:@"y_object_simple.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_string_unicode {
     bool ret = [self fail:@"y_object_string_unicode.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object_with_newlines {
     bool ret = [self fail:@"y_object_with_newlines.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_object {
     bool ret = [self fail:@"y_object.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_1_2_3_bytes_UTF8_sequences {
     bool ret = [self fail:@"y_string_1_2_3_bytes_UTF-8_sequences.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_accepted_surrogate_pair {
     bool ret = [self fail:@"y_string_accepted_surrogate_pair.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_accepted_surrogate_pairs {
     bool ret = [self fail:@"y_string_accepted_surrogate_pairs.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_allowed_escapes {
     bool ret = [self fail:@"y_string_allowed_escapes.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_backslash_and_u_escaped_zero {
     bool ret = [self fail:@"y_string_backslash_and_u_escaped_zero.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_backslash_doublequotes {
     bool ret = [self fail:@"y_string_backslash_doublequotes.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_comments {
     bool ret = [self fail:@"y_string_comments.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_double_escape_a {
     bool ret = [self fail:@"y_string_double_escape_a.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_double_escape_n {
     bool ret = [self fail:@"y_string_double_escape_n.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_escaped_control_character {
     bool ret = [self fail:@"y_string_escaped_control_character.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_escaped_noncharacter {
     bool ret = [self fail:@"y_string_escaped_noncharacter.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_in_array_with_leading_space {
     bool ret = [self fail:@"y_string_in_array_with_leading_space.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_in_array {
     bool ret = [self fail:@"y_string_in_array.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_last_surrogates_1_and_2 {
     bool ret = [self fail:@"y_string_last_surrogates_1_and_2.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_nbsp_uescaped {
     bool ret = [self fail:@"y_string_nbsp_uescaped.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_nonCharacterInUTF8_U1FFFF {
     bool ret = [self fail:@"y_string_nonCharacterInUTF-8_U+1FFFF.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_nonCharacterInUTF8_U10FFFF {
     bool ret = [self fail:@"y_string_nonCharacterInUTF-8_U+10FFFF.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_nonCharacterInUTF8_UFFFF {
     bool ret = [self fail:@"y_string_nonCharacterInUTF-8_U+FFFF.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_null_escape {
     bool ret = [self fail:@"y_string_null_escape.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_one_byte_utf8 {
     bool ret = [self fail:@"y_string_one-byte-utf-8.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_pi {
     bool ret = [self fail:@"y_string_pi.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_simple_ascii {
     bool ret = [self fail:@"y_string_simple_ascii.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_space {
     bool ret = [self fail:@"y_string_space.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_surrogates_U1D11E_MUSICAL_SYMBOL_G_CLEF {
     bool ret = [self fail:@"y_string_surrogates_U+1D11E_MUSICAL_SYMBOL_G_CLEF.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_three_byte_utf8 {
     bool ret = [self fail:@"y_string_three-byte-utf-8.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_two_byte_utf8 {
     bool ret = [self fail:@"y_string_two-byte-utf-8.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_u2028_line_sep {
     bool ret = [self fail:@"y_string_u+2028_line_sep.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_u2029_par_sep {
     bool ret = [self fail:@"y_string_u+2029_par_sep.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_uEscape {
     bool ret = [self fail:@"y_string_uEscape.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_uescaped_newline {
     bool ret = [self fail:@"y_string_uescaped_newline.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unescaped_char_delete {
     bool ret = [self fail:@"y_string_unescaped_char_delete.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_2 {
     bool ret = [self fail:@"y_string_unicode_2.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_escaped_double_quote {
     bool ret = [self fail:@"y_string_unicode_escaped_double_quote.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_U1FFFE_nonchar {
     bool ret = [self fail:@"y_string_unicode_U+1FFFE_nonchar.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_U10FFFE_nonchar {
     bool ret = [self fail:@"y_string_unicode_U+10FFFE_nonchar.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_U200B_ZERO_WIDTH_SPACE {
     bool ret = [self fail:@"y_string_unicode_U+200B_ZERO_WIDTH_SPACE.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_U2064_invisible_plus {
     bool ret = [self fail:@"y_string_unicode_U+2064_invisible_plus.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_UFDD0_nonchar {
     bool ret = [self fail:@"y_string_unicode_U+FDD0_nonchar.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode_UFFFE_nonchar {
     bool ret = [self fail:@"y_string_unicode_U+FFFE_nonchar.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicode {
     bool ret = [self fail:@"y_string_unicode.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_unicodeEscapedBackslash {
     bool ret = [self fail:@"y_string_unicodeEscapedBackslash.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_utf8 {
     bool ret = [self fail:@"y_string_utf8.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_string_with_del_character {
     bool ret = [self fail:@"y_string_with_del_character.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_false {
     bool ret = [self fail:@"y_structure_lonely_false.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_int {
     bool ret = [self fail:@"y_structure_lonely_int.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_negative_real {
     bool ret = [self fail:@"y_structure_lonely_negative_real.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_null {
     bool ret = [self fail:@"y_structure_lonely_null.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_string {
     bool ret = [self fail:@"y_structure_lonely_string.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_lonely_true {
     bool ret = [self fail:@"y_structure_lonely_true.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_string_empty {
     bool ret = [self fail:@"y_structure_string_empty.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_trailing_newline {
     bool ret = [self fail:@"y_structure_trailing_newline.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_true_in_array {
     bool ret = [self fail:@"y_structure_true_in_array.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 - (void)test_y_structure_whitespace_array {
     bool ret = [self fail:@"y_structure_whitespace_array.json"];
-    XCTAssertEqual(ret, true);
+    XCTAssertEqual(ret, false);
 }
 
 @end

@@ -37,6 +37,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <stack>
 
 namespace json
 {
@@ -256,9 +257,9 @@ namespace json
         std::string serialize() const;
 
         void deserialize(const std::string& data, Encoding enc = Encoding::UTF8);
-        void deserialize(const std::string& data, const Kind def, Encoding enc = Encoding::UTF8) noexcept;
+        void deserialize(const std::string& data, const Document& def, Encoding enc = Encoding::UTF8) noexcept;
         void deserializeFromPath(const std::string& path, Encoding enc = Encoding::UTF8);
-        void deserializeFromPath(const std::string& path, const Kind def, Encoding enc = Encoding::UTF8) noexcept;
+        void deserializeFromPath(const std::string& path, const Document& def, Encoding enc = Encoding::UTF8) noexcept;
 
         std::vector<std::shared_ptr<Document>>::iterator beginArray();
         std::vector<std::shared_ptr<Document>>::const_iterator beginArray() const;
@@ -353,7 +354,7 @@ namespace json
          - Throws:
          `json::InvalidCharacter` if you try to add value without a valid key.
          */
-        void addValue(ParseContext& ctx, Document&& val, OStringStream& buffer, const ParseErrorContext& errorCtx);
+        void addValue(ParseContext* ctx, Document&& val, OStringStream& buffer, const ParseErrorContext& errorCtx);
         /**
          Check that a key is specified before parsing a value.
 
@@ -364,7 +365,7 @@ namespace json
          - Throws:
          `json::InvalidCharacter` if you try to add value without a valid key.
          */
-        void checkValidKey(const ParseContext& ctx, const ParseErrorContext& errorCtx) const;
+        void checkValidKey(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the number of colon match the number of keys in the std::unordered_map.
 
@@ -375,7 +376,7 @@ namespace json
          - Throws:
          `json::InvalidCharacter` if you try to add value without a valid key.
          */
-        void checkColonCount(const ParseContext& ctx, const ParseErrorContext& errorCtx) const;
+        void checkColonCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the number of comma match the number of values in the std::vector or std::unordered_map.
 
@@ -386,7 +387,7 @@ namespace json
          - Throws:
          `json::InvalidCharacter` if you try to add value without a valid key.
          */
-        void checkCommaCount(const ParseContext& ctx, const ParseErrorContext& errorCtx) const;
+        void checkCommaCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the character is a control character (https://en.wikipedia.org/wiki/Unicode_control_characters).
 
@@ -456,6 +457,9 @@ namespace json
          - Returns: a string with the escaped values.
          */
         void writeEscapeCharForJSON(OStringStream& buffer, const std::string& u8) const;
+
+
+        ParseContext* findValueKind(std::uint32_t c, std::stack<std::unique_ptr<ParseContext>>& stack, ParseStringContext& stringCtx, OStringStream& buffer, ParseErrorContext& errorCtx);
         
         bool isHexadecimal(const std::uint32_t c) const noexcept;
     private:
