@@ -270,6 +270,13 @@
     XCTAssertEqual(ic, nullptr);
     ic = nullptr;
     try {
+        doc.deserialize("tru");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
         doc.deserialize(" true    false  ");
     } catch (const json::InvalidCharacter& e) {
         ic = &e;
@@ -291,11 +298,25 @@
     XCTAssertEqual(ic, nullptr);
     ic = nullptr;
     try {
+        doc.deserialize(" fal");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
+    ic = nullptr;
+    try {
         doc.deserialize("null");
     } catch (const json::InvalidCharacter& e) {
         ic = &e;
     }
     XCTAssertEqual(ic, nullptr);
+    ic = nullptr;
+    try {
+        doc.deserialize(" nu");
+    } catch (const json::InvalidCharacter& e) {
+        ic = &e;
+    }
+    XCTAssertNotEqual(ic, nullptr);
     ic = nullptr;
     try {
         doc.deserialize("  null\tnull");

@@ -2652,18 +2652,21 @@ void Document::deserialize(ParseErrorContext& errorCtx)
             case ParseContextValue::STRING:
             {
                 if (stringCtx.surrogate > 0)
-                {
                     throw InvalidCharacter("String is not ended by double quote(\") in the middle of UTF-16 surrogate character.", &errorCtx);
-                }
                 else
-                {
                     throw InvalidCharacter("String is not ended by double quote(\").", &errorCtx);
-                }
             }
             case ParseContextValue::UNKNOWN:
             {
                 throw InvalidCharacter("No data", &errorCtx);
             }
+            case ParseContextValue::NEXT: // When a value is parsed correctly the context is set to this state for most of other cases it could mean there is a bug.
+            case ParseContextValue::NUMBER:
+                break;
+            case ParseContextValue::VOID:
+                throw InvalidCharacter("Null value not finished.", &errorCtx);
+            case ParseContextValue::BOOLEAN:
+                throw InvalidCharacter("Boolean value (true or false) not finished.", &errorCtx);
         }
     }
 }
