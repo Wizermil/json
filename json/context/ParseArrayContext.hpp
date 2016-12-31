@@ -1,5 +1,5 @@
 //
-// ParseObjectContext.hpp
+// ParseArrayContext.hpp
 // json
 //
 // Created by Mathieu Garaud on 27/12/16.
