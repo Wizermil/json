@@ -2986,19 +2986,19 @@ void Document::writeEscapeCharForJSON(OStringStream& buffer, const std::string& 
                 buffer << '\\' << static_cast<char>(c);
                 break;
             case '\b':
-                buffer << '\\' << 'b';
+                buffer << "\\b";
                 break;
             case '\f':
-                buffer << '\\' << 'f';
+                buffer << "\\f";
                 break;
             case '\n':
-                buffer << '\\' << 'n';
+                buffer << "\\n";
                 break;
             case '\r':
-                buffer << '\\' << 'r';
+                buffer << "\\r";
                 break;
             case '\t':
-                buffer << '\\' << 't';
+                buffer << "\\t";
                 break;
             default:
                 writeChar(buffer, c);
