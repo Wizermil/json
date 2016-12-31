@@ -90,107 +90,154 @@ namespace json
         void setBoolean(bool val) noexcept;
         void setNull() noexcept;
 
+        /**
+         Returns the type of the document.
+
+         Returns: type of the document.
+         */
         Kind getType() const noexcept;
 
         /**
-         Cast values to short if it can otherwise throw.
+         Casts value to short.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
 
          Returns: a short representation of the value.
          */
         short getShort() const;
         short getShortSafe(short def = -1) const noexcept;
         /**
-         Cast values to int if it can otherwise throw.
+         Casts value to int.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to int: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
 
          Returns: a int representation of the value.
          */
         int getInt() const;
         int getIntSafe(int def = -1) const noexcept;
         /**
-         Cast values to long if it can otherwise throw.
+         Casts value to long.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to long: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
 
          Returns: a long representation of the value.
          */
         long getLong() const;
         long getLongSafe(long def = -1) const noexcept;
         /**
-         Cast values to long long if it can otherwise throw.
+         Casts value to long long.
          
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to long long: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
          
          Returns: a long representation of the value.
          */
         long long getLongLong() const;
         long long getLongLongSafe(long long def = -1) const noexcept;
         /**
-         Cast values to float if it can otherwise throw.
+         Casts value to float.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to float: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
 
          Returns: a float representation of the value.
          */
         float getFloat() const;
         float getFloatSafe(float def = -1) const noexcept;
         /**
-         Cast values to double if it can otherwise throw.
+         Casts value to double.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN, OBJECT and ARRAY.
-         `json::NumberOverflow` if the short value is greater than what a short value can store.
-         `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
-         `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+            `json::BadValue` if we can't convert the value to double: UNKNOWN, OBJECT and ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
 
          Returns: a double representation of the value.
          */
         double getDouble() const;
         double getDoubleSafe(double def = -1) const noexcept;
         /**
-         Cast values to std::string if it can otherwise throw.
+         Casts value to std::string.
 
          - Throws:
-         `json::BadValue` if we can't convert the value to short: UNKNOWN.
-         `json::InvalidCharacter` if there is an issue when creating OBJECT or ARRAY string.
+            `json::BadValue` if we can't convert the value to std::string: UNKNOWN.
+            `json::InvalidCharacter` if there is an issue when creating OBJECT or ARRAY string.
 
          Returns: a std::string representation of the value.
          */
         std::string getString() const;
         std::string getStringSafe(const std::string& def = "") const noexcept;
+        /**
+         Casts value to bool.
+
+         - Throws:
+            `json::BadValue` if we can't convert the value to bool: UNKNOWN, OBJECT or ARRAY.
+            `std::invalid_argument` if there is a STRING conversion issue due to std::stold.
+            `std::out_of_range` if there is a STRING conversion issue due to std::stold.
+
+         Returns: a bool representation of the value.
+         */
         bool getBoolean() const;
         bool getBooleanSafe(bool def = false) const noexcept;
+        /**
+         Return a reference to the object.
+
+         - Throws:
+            `json::BadValue` if the document is not an OBJECT.
+
+         Returns: a reference to object.
+         */
         Object& getObject() const;
         Object& getObjectSafe(const Object& def = json::Object(Kind::OBJECT)) const noexcept;
+        /**
+         Return a reference to the array.
+
+         - Throws:
+            `json::BadValue` if the document is not an ARRAY.
+
+         Returns: a reference to array.
+         */
         Array& getArray() const;
         Array& getArraySafe(const Array& def = json::Array(Kind::ARRAY)) const noexcept;
+        /**
+         Checks if the value is null.
+
+         Returns: a bool representation if the value is null.
+         */
         bool isNull() const noexcept;
 
-        std::size_t getSize() const noexcept;
+        /**
+         Number of values in the array.
 
+         Returns: number of values in the array.
+         */
+        std::size_t getSize() const noexcept;
+        /**
+         Casts value at index to short.
+
+         - Parameters:
+            - index: index of the array.
+         
+         - Throws:
+            `json::BadValue` if the document is not an ARRAY.
+            `std::out_of_range` if the converted value would fall out of the range of the result type.
+            `std::invalid_argument`  if no conversion could be performed.
+         
+         Returns: a short representation of the value at index.
+         */
         short getShortAt(std::size_t index) const;
         short getShortSafeAt(std::size_t index, short def = -1) const noexcept;
         int getIntAt(std::size_t index) const;
@@ -333,66 +380,66 @@ namespace json
          Parse a stream representing JSON to a std::vector or std::unordered_map depending of the nature of the data.
 
          - Parameters:
-         - stream: The stream to parse.
-         - enc: Encoding of the stream (default: UTF-8)
+            - stream: The stream to parse.
+            - enc: Encoding of the stream (default: UTF-8)
 
          - Throws:
-         `json::InvalidCharacter` if there is an unexpected character.
-         `std::invalid_argument` if there is a problem extracting number using std::stod.
-         `std::out_of_range` if there is a problem extracting number using std::stod.
+            `json::InvalidCharacter` if there is an unexpected character.
+            `std::invalid_argument` if there is a problem extracting number using std::stod.
+            `std::out_of_range` if there is a problem extracting number using std::stod.
          */
         void deserialize(ParseErrorContext& errorCtx);
         /**
          Add json::Document (string, number, boolean, null) to the underliying storage: std::vector or std::unordered_map.
 
          - Parameters:
-         - ctx: Context in charge of storing parsing information.
-         - val: Struct to save string, number, boolean or null.
-         - buffer: Buffer used to extract values.
-         - errorCtx: Context used to throw exception with maximun details.
+            - ctx: Context in charge of storing parsing information.
+            - val: Struct to save string, number, boolean or null.
+            - buffer: Buffer used to extract values.
+            - errorCtx: Context used to throw exception with maximun details.
 
          - Throws:
-         `json::InvalidCharacter` if you try to add value without a valid key.
+            `json::InvalidCharacter` if you try to add value without a valid key.
          */
         void addValue(ParseContext* ctx, Document&& val, OStringStream& buffer, const ParseErrorContext& errorCtx);
         /**
          Check that a key is specified before parsing a value.
 
          - Parameters:
-         - ctx: Context in charge of storing parsing information.
-         - errorCtx: Context used to throw exception with maximun details.
+            - ctx: Context in charge of storing parsing information.
+            - errorCtx: Context used to throw exception with maximun details.
 
          - Throws:
-         `json::InvalidCharacter` if you try to add value without a valid key.
+            `json::InvalidCharacter` if you try to add value without a valid key.
          */
         void checkValidKey(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the number of colon match the number of keys in the std::unordered_map.
 
          - Parameters:
-         - ctx: Context in charge of storing parsing information.
-         - errorCtx: Context used to throw exception with maximun details.
+            - ctx: Context in charge of storing parsing information.
+            - errorCtx: Context used to throw exception with maximun details.
 
          - Throws:
-         `json::InvalidCharacter` if you try to add value without a valid key.
+            `json::InvalidCharacter` if you try to add value without a valid key.
          */
         void checkColonCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the number of comma match the number of values in the std::vector or std::unordered_map.
 
          - Parameters:
-         - ctx: Context in charge of storing parsing information.
-         - errorCtx: Context used to throw exception with maximun details.
+            - ctx: Context in charge of storing parsing information.
+            - errorCtx: Context used to throw exception with maximun details.
 
          - Throws:
-         `json::InvalidCharacter` if you try to add value without a valid key.
+            `json::InvalidCharacter` if you try to add value without a valid key.
          */
         void checkCommaCount(const ParseContext* ctx, const ParseErrorContext& errorCtx) const;
         /**
          Check that the character is a control character (https://en.wikipedia.org/wiki/Unicode_control_characters).
 
          - Parameters:
-         - c: 32bit code point of the character to check.
+            - c: 32bit code point of the character to check.
 
          - Returns: `true` if it's a control character.
          */
@@ -401,7 +448,7 @@ namespace json
          Check that the character is insignificant based on RFC7159 (https://tools.ietf.org/html/rfc7159).
 
          - Parameters:
-         - c: 32bit code point of the character to check.
+            - c: 32bit code point of the character to check.
 
          - Returns: `true` if it's Space or Horizontal tab or Line feed or New line or Carriage return.
          */
@@ -410,40 +457,40 @@ namespace json
          Convert a 32bit character to it's UTF-8 representation and add it to the buffer.
 
          - Parameters:
-         - buffer: Buffer used to save UTF-8 character.
-         - c: 32bit code point of the character to convert to UTF-8.
+            - buffer: Buffer used to save UTF-8 character.
+            - c: 32bit code point of the character to convert to UTF-8.
 
          - Throws:
-         `json::InvalidCharacter` if the character is greater than 0x10FFFF.
+            `json::InvalidCharacter` if the character is greater than 0x10FFFF.
          */
         void writeChar(OStringStream& buffer, const std::uint32_t c) const noexcept;
         /**
          Parse string value taking into account escaped character including UTF-16.
 
          - Parameters:
-         - ctx: Context in charge of storing parsing information.
-         - previousChar: 32bit code point of the previous character.
-         - c: 32bit code point of the character.
-         - stringCtx: Context used to properly extract string.
-         - buffer: Buffer used to extract values.
-         - errorCtx: Context used to throw exception with maximun details.
+             - ctx: Context in charge of storing parsing information.
+             - previousChar: 32bit code point of the previous character.
+             - c: 32bit code point of the character.
+             - stringCtx: Context used to properly extract string.
+             - buffer: Buffer used to extract values.
+             - errorCtx: Context used to throw exception with maximun details.
 
          - Throws:
-         `json::InvalidCharacter` if during the parsing we find wrongly escaped characters or errors with surrogates.
-         `std::invalid_argument` if there is a problem during the parsing of escaped 4 hex digits
-         `std::out_of_range` if there is a problem during the parsing of escaped 4 hex digits
+             `json::InvalidCharacter` if during the parsing we find wrongly escaped characters or errors with surrogates.
+             `std::invalid_argument` if there is a problem during the parsing of escaped 4 hex digits
+             `std::out_of_range` if there is a problem during the parsing of escaped 4 hex digits
          */
         void parseString(const std::uint32_t previousChar, const std::uint32_t c, ParseStringContext& stringCtx, OStringStream& buffer, const ParseErrorContext& errorCtx);
         /**
          Decode any UTF-X characters to std::uint32_t based on the decoding selected.
 
          - Parameters:
-         - stream: The stream to parse.
-         - errorCtx: Context used to throw exception with maximun details.
-         - enc: Encoding of the stream (default: UTF-8)
+            - stream: The stream to parse.
+            - errorCtx: Context used to throw exception with maximun details.
+            - enc: Encoding of the stream (default: UTF-8)
 
          - Throws:
-         `json::InvalidCharacter` if we are not able to decode the characters due to incompatibilities.
+            `json::InvalidCharacter` if we are not able to decode the characters due to incompatibilities.
          */
         std::uint32_t nextChar(std::istream* stream, const ParseErrorContext* errorCtx, Encoding enc) const;
 
@@ -451,8 +498,8 @@ namespace json
          Write UTF-8 string escaping quotation mark, reverse solidus, solidus, backspace, formfeed, newline, carriage return, horizontal tab to be compliant with JSON definition of string.
 
          - Parameters:
-         - buffer: Buffer used to write the string.
-         - u8: the UTF-8 key or string value that could contained characters that must be escaped.
+            - buffer: Buffer used to write the string.
+            - u8: the UTF-8 key or string value that could contained characters that must be escaped.
 
          - Returns: a string with the escaped values.
          */
