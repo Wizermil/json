@@ -156,7 +156,7 @@ namespace json
          Returns: a float representation of the value.
          */
         float getFloat() const;
-        float getFloatSafe(float def = -1) const noexcept;
+        float getFloatSafe(float def = -1.f) const noexcept;
         /**
          Casts value to double.
 
@@ -168,7 +168,7 @@ namespace json
          Returns: a double representation of the value.
          */
         double getDouble() const;
-        double getDoubleSafe(double def = -1) const noexcept;
+        double getDoubleSafe(double def = -1.0) const noexcept;
         /**
          Casts value to std::string.
 
