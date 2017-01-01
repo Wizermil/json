@@ -1,0 +1,6 @@
+framework module json {
+    umbrella header "json.hpp"
+    
+    export *
+    module * { export * }
+}
