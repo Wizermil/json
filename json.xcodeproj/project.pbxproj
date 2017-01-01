@@ -738,7 +738,6 @@
 		22694C4A1E13196400144FBF /* ParseArrayContext.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParseArrayContext.hpp; sourceTree = "<group>"; };
 		227B48DE1E1857CE00144FBF /* perf */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = perf; sourceTree = BUILT_PRODUCTS_DIR; };
 		227B48E01E1857CE00144FBF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		227B48E61E1857F300144FBF /* magicthegathering_cards+extras.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "magicthegathering_cards+extras.json"; sourceTree = "<group>"; };
 		22EDF3D01E0BCDE400144FBF /* jsonTestSuite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = jsonTestSuite.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1194,18 +1193,9 @@
 		227B48DF1E1857CE00144FBF /* perf */ = {
 			isa = PBXGroup;
 			children = (
-				227B48E51E1857F300144FBF /* Resources */,
 				227B48E01E1857CE00144FBF /* main.cpp */,
 			);
 			path = perf;
-			sourceTree = "<group>";
-		};
-		227B48E51E1857F300144FBF /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				227B48E61E1857F300144FBF /* magicthegathering_cards+extras.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
