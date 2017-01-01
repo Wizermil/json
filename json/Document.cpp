@@ -886,80 +886,80 @@ short Document::getShortSafeAt(std::size_t index, short def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getShortSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 int Document::getIntSafeAt(std::size_t index, int def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getIntSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 long Document::getLongSafeAt(std::size_t index, long def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getLongSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 long long Document::getLongLongSafeAt(std::size_t index, long long def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getLongLongSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 float Document::getFloatSafeAt(std::size_t index, float def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getFloatSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 double Document::getDoubleSafeAt(std::size_t index, double def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getDoubleSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 std::string Document::getStringSafeAt(std::size_t index, const std::string& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getStringSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 bool Document::getBooleanSafeAt(std::size_t index, bool def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getBooleanSafe(def);
-        else
-            return def;
+    else
+        return def;
 }
 
 Object& Document::getObjectSafeAt(std::size_t index, const Object& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getObjectSafe(def);
-        else
-            return const_cast<Object&>(def);
+    else
+        return const_cast<Object&>(def);
 }
 
 Array& Document::getArraySafeAt(std::size_t index, const Array& def) const noexcept
 {
     if (_type == Kind::ARRAY && index < _array.size())
         return _array[index]->getArraySafe(def);
-        else
-            return const_cast<Array&>(def);
+    else
+        return const_cast<Array&>(def);
 }
 
 short Document::getShortFrom(const std::string& key) const
