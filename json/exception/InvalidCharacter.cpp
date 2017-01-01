@@ -94,7 +94,7 @@ InvalidCharacter::InvalidCharacter(const std::string& message, const ParseErrorC
             extractBuf << '\r' << '\n' << cursorErrorBuf.str();
         }
     }
-    whatBuf << errorCtx->filename << ':' << (errorCtx == nullptr?0:errorCtx->line) << ':' << (errorCtx == nullptr?0:errorCtx->column) << ": error: "<< message << '\r' << '\n' << extractBuf.str() << '\r' << '\n';
+    whatBuf << (errorCtx == nullptr?"":errorCtx->filename) << ':' << (errorCtx == nullptr?0:errorCtx->line) << ':' << (errorCtx == nullptr?0:errorCtx->column) << ": error: "<< message << '\r' << '\n' << extractBuf.str() << '\r' << '\n';
     _what = whatBuf.str();
 }
 InvalidCharacter::InvalidCharacter(InvalidCharacter&& other) noexcept : std::exception(std::move(other))
