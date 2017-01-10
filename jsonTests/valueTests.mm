@@ -28,7 +28,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <json/json.h>
+#import <json/json.hpp>
 #include <random>
 #include <vector>
 
