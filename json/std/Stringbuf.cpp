@@ -35,7 +35,9 @@
 
 using namespace json;
 using namespace std;
+#if __clang_major__ < 9
 using namespace std::experimental;
+#endif
 
 Stringbuf::Stringbuf(std::ios::openmode wch) : std::streambuf()
 , _hm(0)
@@ -97,7 +99,11 @@ Stringbuf& Stringbuf::operator=(Stringbuf&& rhs) noexcept
         else
         {
             _strInOut.~vector<char>();
+#if __clang_major__ > 8
+            new(&_strIn) std::string_view(std::move(rhs._strIn));
+#else
             new(&_strIn) std::experimental::string_view(std::move(rhs._strIn));
+#endif
         }
         p = const_cast<char_type*>(_strIn.data());
     }
@@ -196,11 +202,19 @@ void Stringbuf::swap(Stringbuf& rhs)
         }
         else
         {
+#if __clang_major__ > 8
+            const std::string_view tmpStringView(std::move(_strIn));
+#else
             const std::experimental::string_view tmpStringView(std::move(_strIn));
+#endif
             _strIn.~string_view();
             new(&_strInOut) std::vector<char>(std::move(rhs._strInOut));
             rhs._strInOut.~vector<char>();
+#if __clang_major__ > 8
+            new(&rhs._strIn) std::string_view(std::move(tmpStringView));
+#else
             new(&rhs._strIn) std::experimental::string_view(std::move(tmpStringView));
+#endif
             p = const_cast<char_type*>(_strInOut.data());
         }
     }
@@ -210,7 +224,11 @@ void Stringbuf::swap(Stringbuf& rhs)
         {
             const std::vector<char> tmpVector(std::move(_strInOut));
             _strInOut.~vector<char>();
+#if __clang_major__ > 8
+            new(&_strIn) std::string_view(std::move(rhs._strIn));
+#else
             new(&_strIn) std::experimental::string_view(std::move(rhs._strIn));
+#endif
             rhs._strIn.~string_view();
             new(&rhs._strInOut) std::vector<char>(std::move(tmpVector));
             p = const_cast<char_type*>(_strIn.data());
@@ -274,7 +292,11 @@ void Stringbuf::str(const std::string& s)
     bool init = false;
     std::call_once(_initOnce, [this, &s, &init]() {
         if ((_mode & std::ios::in) == std::ios::in && (_mode & std::ios::out) != std::ios::out)
+#if __clang_major__ > 8
+            new(&_strIn) std::string_view(s);
+#else
             new(&_strIn) std::experimental::string_view(s);
+#endif
         else
             new(&_strInOut) std::vector<char>(s.begin(), s.end());
         init = true;
@@ -282,7 +304,11 @@ void Stringbuf::str(const std::string& s)
     if (init == false)
     {
         if ((_mode & std::ios::in) == std::ios::in && (_mode & std::ios::out) != std::ios::out)
+#if __clang_major__ > 8
+            _strIn = std::string_view(s);
+#else
             _strIn = std::experimental::string_view(s);
+#endif
         else
             _strInOut = std::vector<char>(s.begin(), s.end());
     }
