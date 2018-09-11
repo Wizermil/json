@@ -29,11 +29,7 @@
 
 #pragma once
 
-#if __clang_major__ > 8
 #include <string_view>
-#else
-#include <experimental/string_view>
-#endif
 #include <ios>
 #include <memory>
 #include <mutex>
@@ -79,11 +75,7 @@ namespace json
     private:
         union {
             std::vector<char> _strInOut;
-#if __clang_major__ > 8
             std::string_view _strIn;
-#else
-            std::experimental::string_view _strIn;
-#endif
         };
         mutable char_type* _hm;
         std::ios::openmode _mode;
